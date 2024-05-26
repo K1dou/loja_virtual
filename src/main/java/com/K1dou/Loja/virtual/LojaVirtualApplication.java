@@ -10,4 +10,8 @@ public class LojaVirtualApplication {
 		SpringApplication.run(LojaVirtualApplication.class, args);
 	}
 
+
+
+
+
 }
