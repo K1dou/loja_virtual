@@ -7,7 +7,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "pessoa_fisica")
-@PrimaryKeyJoinColumn(name = "id")
 public class PessoaFisica extends Pessoa{
 
     @Column(nullable = false)

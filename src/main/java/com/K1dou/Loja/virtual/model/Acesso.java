@@ -13,6 +13,7 @@ public class Acesso implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_acesso")
     private Long id;
+
     @Column(nullable = false)
     private String descricao;         //Acess ex: ROLE_ADMIN ou ROLE_SECRETARIO
 
@@ -20,6 +21,21 @@ public class Acesso implements GrantedAuthority {
     public String getAuthority() {
         return this.descricao;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public boolean equals(Object o) {
