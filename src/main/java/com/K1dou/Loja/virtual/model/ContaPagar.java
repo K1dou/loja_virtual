@@ -1,7 +1,6 @@
 package com.K1dou.Loja.virtual.model;
 
 import com.K1dou.Loja.virtual.enums.StatusContaPagar;
-import com.K1dou.Loja.virtual.enums.StatusContaReceber;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -39,7 +38,7 @@ public class ContaPagar {
 
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_forn_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_forn_fk"))
-    private Pessoa pessoa_fornecedor;
+    private Pessoa pessoaFornecedor;
 
     public Long getId() {
         return id;
@@ -105,12 +104,12 @@ public class ContaPagar {
         this.pessoa = pessoa;
     }
 
-    public Pessoa getPessoa_fornecedor() {
-        return pessoa_fornecedor;
+    public Pessoa getPessoaFornecedor() {
+        return pessoaFornecedor;
     }
 
-    public void setPessoa_fornecedor(Pessoa pessoa_fornecedor) {
-        this.pessoa_fornecedor = pessoa_fornecedor;
+    public void setPessoaFornecedor(Pessoa pessoaFornecedor) {
+        this.pessoaFornecedor = pessoaFornecedor;
     }
 
 
