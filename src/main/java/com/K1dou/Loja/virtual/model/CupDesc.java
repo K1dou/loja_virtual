@@ -10,15 +10,19 @@ import java.util.Objects;
 @Entity
 @Table(name = "cup_desc")
 @SequenceGenerator(name = "seq_cup_desc",sequenceName = "seq_cup_desc",initialValue = 1,allocationSize = 1)
-public class cupDesc {
+public class CupDesc {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_cup_desc")
     private Long id;
+
+    @Column(nullable = false)
     private String codDesc;
+
     private BigDecimal valorRealDesc;
     private BigDecimal valorPorcentDesc;
 
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataValidadeCupom;
 
@@ -66,7 +70,7 @@ public class cupDesc {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        cupDesc cupDesc = (cupDesc) o;
+        CupDesc cupDesc = (CupDesc) o;
         return Objects.equals(id, cupDesc.id);
     }
 
