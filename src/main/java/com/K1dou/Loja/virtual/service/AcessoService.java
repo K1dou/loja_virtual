@@ -12,7 +12,7 @@ public class AcessoService {
     private AcessoRepository acessoRepository;
 
 
-    public Acesso acesso (Acesso acesso){
+    public Acesso save (Acesso acesso){
 
       return  acessoRepository.save(acesso);
 
