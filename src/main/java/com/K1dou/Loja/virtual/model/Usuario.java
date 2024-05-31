@@ -39,6 +39,7 @@ public class Usuario implements UserDetails {
     private List<Acesso> acessos = new ArrayList<>();
 
 
+
     public Long getId() {
         return id;
     }
