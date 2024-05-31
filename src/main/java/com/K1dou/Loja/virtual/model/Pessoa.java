@@ -19,13 +19,25 @@ public abstract class Pessoa {
     private String nome;
     @Column(nullable = false)
     private String email;
+
     @Column(nullable = false)
     private String telefone;
 
 
+    private String tipoPessoa;
+
     //revisar
     @OneToMany(mappedBy = "pessoa",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Endereco> enderecos = new ArrayList<>();
+
+
+    public String getTipoPessoa() {
+        return tipoPessoa;
+    }
+
+    public void setTipoPessoa(String tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
+    }
 
     public List<Endereco> getEnderecos() {
         return enderecos;

@@ -53,7 +53,7 @@ class LojaVirtualApplicationTests extends TestCase {
         MockMvc mockMvc = builder.build();
 
         Acesso acesso = new Acesso();
-        acesso.setDescricao("ROLE_COMPRADOR");
+        acesso.setDescricao("ROLE_CADASTRO");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -79,7 +79,7 @@ class LojaVirtualApplicationTests extends TestCase {
         MockMvc mockMvc = builder.build();
 
         Acesso acesso = new Acesso();
-        acesso.setDescricao("ROLE_COMPRADOR");
+        acesso.setDescricao("ROLE_DELETE");
 
         acessoRepository.save(acesso);
 
@@ -106,7 +106,7 @@ class LojaVirtualApplicationTests extends TestCase {
         MockMvc mockMvc = builder.build();
 
         Acesso acesso = new Acesso();
-        acesso.setDescricao("ROLE_COMPRADOR");
+        acesso.setDescricao("ROLE_OBTER");
 
         acessoRepository.save(acesso);
 
@@ -136,7 +136,7 @@ class LojaVirtualApplicationTests extends TestCase {
         MockMvc mockMvc = builder.build();
 
         Acesso acesso = new Acesso();
-        acesso.setDescricao("ROLE_COMPRADOR");
+        acesso.setDescricao("ROLE_OBTERDESC");
         acessoRepository.save(acesso);
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -154,7 +154,7 @@ class LojaVirtualApplicationTests extends TestCase {
         });
 
 
-        assertEquals(2,retornoApiList.size());
+        assertEquals(1,retornoApiList.size());
         assertEquals(acesso.getDescricao(), retornoApiList.get(0).getDescricao());
 
         acessoRepository.deleteById(acesso.getId());
