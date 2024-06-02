@@ -3,7 +3,6 @@ package com.K1dou.Loja.virtual.model;
 
 import jakarta.persistence.*;
 
-import java.beans.BeanInfo;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
