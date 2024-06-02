@@ -3,7 +3,6 @@ package com.K1dou.Loja.virtual.controller;
 import com.K1dou.Loja.virtual.model.Acesso;
 import com.K1dou.Loja.virtual.repository.AcessoRepository;
 import com.K1dou.Loja.virtual.service.AcessoService;
-import com.sun.net.httpserver.HttpsServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ public class AcessoController {
     @Autowired
     private AcessoRepository acessoRepository;
 
-    @ResponseBody
     @PostMapping("/salvarAcesso")
     public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso){
 
@@ -30,9 +28,9 @@ public class AcessoController {
         return new ResponseEntity<Acesso>(acessoSalvo, HttpStatus.OK);
     }
 
-    @ResponseBody
+
     @PostMapping("/deleteAcesso")
-    public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso){
+    public ResponseEntity deleteAcesso(@RequestBody Acesso acesso){
 
         acessoRepository.deleteById(acesso.getId());
 
@@ -40,9 +38,8 @@ public class AcessoController {
 
     }
 
-    @ResponseBody
     @DeleteMapping("/deleteAcessoPorId/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id){
+    public ResponseEntity deleteById(@PathVariable Long id){
 
         acessoRepository.deleteById(id);
 
@@ -50,7 +47,7 @@ public class AcessoController {
 
     }
 
-    @ResponseBody
+
     @GetMapping("/obterAcesso/{id}")
     public ResponseEntity<Acesso> obterAcesso(@PathVariable Long id){
 
@@ -60,7 +57,8 @@ public class AcessoController {
 
     }
 
-    @ResponseBody
+
+
     @GetMapping("/buscarPorDesc/{desc}")
     public ResponseEntity<List<Acesso>>buscarPorDesc(@PathVariable String desc){
 

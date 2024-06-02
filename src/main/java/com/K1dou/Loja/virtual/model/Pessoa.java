@@ -30,6 +30,16 @@ public abstract class Pessoa {
     @OneToMany(mappedBy = "pessoa",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Endereco> enderecos = new ArrayList<>();
 
+    public Pessoa() {
+    }
+
+    public Pessoa(String nome, String email, String telefone, String tipoPessoa) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.tipoPessoa = tipoPessoa;
+
+    }
 
     public String getTipoPessoa() {
         return tipoPessoa;

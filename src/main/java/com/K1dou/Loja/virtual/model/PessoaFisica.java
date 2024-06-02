@@ -3,6 +3,7 @@ package com.K1dou.Loja.virtual.model;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,9 +17,28 @@ public class PessoaFisica extends Pessoa{
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
 
+
+    public PessoaFisica() {
+    }
+
+    public PessoaFisica(String cpf, Date dataNascimento) {
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public PessoaFisica(String nome, String email, String telefone, String tipoPessoa, String cpf, Date dataNascimento) {
+        super(nome, email, telefone, tipoPessoa);
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+    }
+
     public String getCpf() {
         return cpf;
     }
+
+
+
+
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
@@ -31,6 +51,9 @@ public class PessoaFisica extends Pessoa{
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+
+
 
     @Override
     public boolean equals(Object o) {
