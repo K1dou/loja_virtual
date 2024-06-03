@@ -1,6 +1,5 @@
 package com.K1dou.Loja.virtual.controller;
 
-import com.K1dou.Loja.virtual.LojaVirtualApplication;
 import com.K1dou.Loja.virtual.config.TokenService;
 import com.K1dou.Loja.virtual.model.Acesso;
 import com.K1dou.Loja.virtual.model.Dtos.TokenDto;
@@ -43,7 +42,7 @@ public class AuthController {
 
         var senha = passwordEncoder.encode(dto.password());
 
-        Pessoa pessoa = pessoaRepository.findById(dto.id()).get();
+        Pessoa pessoa = pessoaRepository.findById(dto.idDaPessoa()).get();
 
         List<Acesso> acessos = new ArrayList<>();
         acessos.addAll(dto.acessos());
