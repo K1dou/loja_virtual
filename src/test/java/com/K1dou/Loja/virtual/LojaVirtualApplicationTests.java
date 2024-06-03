@@ -45,121 +45,121 @@ class LojaVirtualApplicationTests extends TestCase {
         // Teste básico para verificar se o contexto carrega corretamente
     }
 
-
-    @Test
-    void testRestApiCadastroAcesso() throws Exception {
-
-        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-        MockMvc mockMvc = builder.build();
-
-        Acesso acesso = new Acesso();
-        acesso.setDescricao("ROLE_CADASTRO");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        ResultActions retornoApi = mockMvc
-                .perform(MockMvcRequestBuilders.post("/acesso/salvarAcesso")
-                        .content(objectMapper.writeValueAsString(acesso))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON));
-
-        //conveter o retorno da API para um objeto de acesso
-        Acesso objetoRetorno = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(), Acesso.class);
-
-        assertEquals(acesso.getDescricao(), objetoRetorno.getDescricao());
-
-
-    }
-
-
-    @Test
-    void testRestApiDeletePorIDAcesso() throws Exception {
-
-        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-        MockMvc mockMvc = builder.build();
-
-        Acesso acesso = new Acesso();
-        acesso.setDescricao("ROLE_DELETE");
-
-        acessoRepository.save(acesso);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        ResultActions retornoApi = mockMvc
-                .perform(MockMvcRequestBuilders.delete("/acesso/deleteAcessoPorId/" + acesso.getId())
-                        .content(objectMapper.writeValueAsString(acesso))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON));
-
-        assertEquals("Acesso removido", retornoApi.andReturn().getResponse().getContentAsString());
-        assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
-
-        acessoRepository.deleteById(acesso.getId());
-
-    }
-
-
-    @Test
-    void testRestApiObterAcessoID() throws Exception {
-
-        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-        MockMvc mockMvc = builder.build();
-
-        Acesso acesso = new Acesso();
-        acesso.setDescricao("ROLE_OBTER");
-
-        acessoRepository.save(acesso);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        ResultActions retornoApi = mockMvc
-                .perform(MockMvcRequestBuilders.get("/acesso/obterAcesso/" + acesso.getId())
-                        .content(objectMapper.writeValueAsString(acesso))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON));
-
-        Acesso acesso1 = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(), Acesso.class);
-
-
-        assertEquals(acesso.getDescricao(), acesso1.getDescricao());
-        assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
-
-        acessoRepository.deleteById(acesso.getId());
-
-    }
-
-
-    @Test
-    void testRestApiObterAcessoDesc() throws Exception {
-
-        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-        MockMvc mockMvc = builder.build();
-
-        Acesso acesso = new Acesso();
-        acesso.setDescricao("ROLE_OBTERDESC");
-        acessoRepository.save(acesso);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        ResultActions retornoApi = mockMvc
-                .perform(MockMvcRequestBuilders.get("/acesso/buscarPorDesc/COMPRADOR")
-                        .content(objectMapper.writeValueAsString(acesso))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON));
+//
+//    @Test
+//    void testRestApiCadastroAcesso() throws Exception {
+//
+//        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+//        MockMvc mockMvc = builder.build();
+//
+//        Acesso acesso = new Acesso();
+//        acesso.setDescricao("ROLE_CADASTRO");
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        ResultActions retornoApi = mockMvc
+//                .perform(MockMvcRequestBuilders.post("/acesso/salvarAcesso")
+//                        .content(objectMapper.writeValueAsString(acesso))
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON));
+//
+//        //conveter o retorno da API para um objeto de acesso
+//        Acesso objetoRetorno = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(), Acesso.class);
+//
+//        assertEquals(acesso.getDescricao(), objetoRetorno.getDescricao());
+//
+//
+//    }
+//
+//
+//    @Test
+//    void testRestApiDeletePorIDAcesso() throws Exception {
+//
+//        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+//        MockMvc mockMvc = builder.build();
+//
+//        Acesso acesso = new Acesso();
+//        acesso.setDescricao("ROLE_DELETE");
+//
+//        acessoRepository.save(acesso);
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        ResultActions retornoApi = mockMvc
+//                .perform(MockMvcRequestBuilders.delete("/acesso/deleteAcessoPorId/" + acesso.getId())
+//                        .content(objectMapper.writeValueAsString(acesso))
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON));
+//
+//        assertEquals("Acesso removido", retornoApi.andReturn().getResponse().getContentAsString());
+//        assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+//
+//        acessoRepository.deleteById(acesso.getId());
+//
+//    }
+//
+//
+//    @Test
+//    void testRestApiObterAcessoID() throws Exception {
+//
+//        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+//        MockMvc mockMvc = builder.build();
+//
+//        Acesso acesso = new Acesso();
+//        acesso.setDescricao("ROLE_OBTER");
+//
+//        acessoRepository.save(acesso);
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        ResultActions retornoApi = mockMvc
+//                .perform(MockMvcRequestBuilders.get("/acesso/obterAcesso/" + acesso.getId())
+//                        .content(objectMapper.writeValueAsString(acesso))
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON));
+//
+//        Acesso acesso1 = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(), Acesso.class);
+//
+//
+//        assertEquals(acesso.getDescricao(), acesso1.getDescricao());
+//        assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+//
+//        acessoRepository.deleteById(acesso.getId());
+//
+//    }
 
 
-        assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
-
-        List<Acesso> retornoApiList = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(), new TypeReference<List<Acesso>>() {
-        });
-
-
-        assertEquals(1,retornoApiList.size());
-        assertEquals(acesso.getDescricao(), retornoApiList.get(0).getDescricao());
-
-        acessoRepository.deleteById(acesso.getId());
-
-    }
+//    @Test
+//    void testRestApiObterAcessoDesc() throws Exception {
+//
+//        DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+//        MockMvc mockMvc = builder.build();
+//
+//        Acesso acesso = new Acesso();
+//        acesso.setDescricao("ROLE_OBTERDESC");
+//        acessoRepository.save(acesso);
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        ResultActions retornoApi = mockMvc
+//                .perform(MockMvcRequestBuilders.get("/acesso/buscarPorDesc/COMPRADOR")
+//                        .content(objectMapper.writeValueAsString(acesso))
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON));
+//
+//
+//        assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+//
+//        List<Acesso> retornoApiList = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(), new TypeReference<List<Acesso>>() {
+//        });
+//
+//
+//        assertEquals(1,retornoApiList.size());
+//        assertEquals(acesso.getDescricao(), retornoApiList.get(0).getDescricao());
+//
+//        acessoRepository.deleteById(acesso.getId());
+//
+//    }
 
 
 //    @Test

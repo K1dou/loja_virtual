@@ -39,6 +39,21 @@ public class Usuario implements UserDetails {
     private List<Acesso> acessos = new ArrayList<>();
 
 
+    public Usuario(String login, String senha, Date dataAtualSenha, Pessoa pessoa, List<Acesso> acessos) {
+        this.login = login;
+        this.senha = senha;
+        this.dataAtualSenha = dataAtualSenha;
+        this.pessoa = pessoa;
+        this.acessos = acessos;
+    }
+
+    public Usuario(String login, String senha) {
+        this.login = login;
+        this.senha = senha;
+    }
+
+    public Usuario() {
+    }
 
     public Long getId() {
         return id;

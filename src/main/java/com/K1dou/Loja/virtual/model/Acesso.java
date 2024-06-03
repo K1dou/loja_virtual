@@ -19,7 +19,6 @@ public class Acesso implements GrantedAuthority {
     private String descricao;         //Acess ex: ROLE_ADMIN ou ROLE_SECRETARIO
 
 
-    @JsonIgnore
     @Override
     public String getAuthority() {
         return this.descricao;

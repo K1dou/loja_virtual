@@ -10,7 +10,6 @@ import com.K1dou.Loja.virtual.model.Pessoa;
 import com.K1dou.Loja.virtual.model.Usuario;
 import com.K1dou.Loja.virtual.repository.PessoaRepository;
 import com.K1dou.Loja.virtual.repository.UsuarioRepository;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,21 +26,16 @@ import java.util.List;
 @RequestMapping("/auth")
 public class AuthController {
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private PessoaRepository pessoaRepository;
-
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
 
     @PostMapping("/cadastro")
@@ -63,10 +57,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity loginUsuario(@RequestBody UserLogin dto) {
-        var senha = new UsernamePasswordAuthenticationToken(dto.login(),dto.password());
-        var auth = this.authenticationManager.authenticate(senha);
 
-        String token = tokenService.generateToken((Usuario) auth.getPrincipal());
+        var usuario = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
+
+        var auth = authenticationManager.authenticate(usuario);
+
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
         return ResponseEntity.ok(new TokenDto(token));
     }
