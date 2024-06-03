@@ -1,6 +1,6 @@
 package com.K1dou.Loja.virtual.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -19,11 +19,11 @@ public class Acesso implements GrantedAuthority {
     private String descricao;         //Acess ex: ROLE_ADMIN ou ROLE_SECRETARIO
 
 
+
     @Override
     public String getAuthority() {
         return this.descricao;
     }
-
 
     public Long getId() {
         return id;
@@ -46,11 +46,11 @@ public class Acesso implements GrantedAuthority {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Acesso acesso = (Acesso) o;
-        return Objects.equals(id, acesso.id) && Objects.equals(descricao, acesso.descricao);
+        return Objects.equals(id, acesso.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descricao);
+        return Objects.hash(id);
     }
 }

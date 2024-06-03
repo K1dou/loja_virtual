@@ -1,5 +1,6 @@
 package com.K1dou.Loja.virtual.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -95,6 +96,7 @@ public class Usuario implements UserDetails {
         this.pessoa = pessoa;
     }
 
+
     public List<Acesso> getAcessos() {
         return acessos;
     }
@@ -143,11 +145,11 @@ public class Usuario implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return Objects.equals(id, usuario.id) && Objects.equals(login, usuario.login);
+        return Objects.equals(id, usuario.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login);
+        return Objects.hash(id);
     }
 }
