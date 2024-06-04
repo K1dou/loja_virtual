@@ -27,12 +27,9 @@ public class SecurityConfig  {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/acesso/**").permitAll()
-                        .requestMatchers("/auth/login","/auth/cadastro").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/buscarPorLogin/**").hasRole("ADMIN")
-
                         .requestMatchers("/pessoa/**").permitAll()
-                        .requestMatchers("/user/**").permitAll()
-
 
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

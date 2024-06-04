@@ -20,18 +20,18 @@ public class TokenService {
     private String secret;
 
 
-        public String generateToken(Usuario usuario) {
-            try {
-                Algorithm algorithm = Algorithm.HMAC256(secret);
-                return JWT.create()
-                        .withSubject(usuario.getUsername())
-                        .withIssuer("auth-api")
-                        .withExpiresAt(expire())
-                        .sign(algorithm);
-            } catch (JWTCreationException e) {
-                throw new RuntimeException(e.getMessage());
-            }
+    public String generateToken(Usuario usuario) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.create()
+                    .withSubject(usuario.getLogin())
+                    .withIssuer("auth-api")
+                    .withExpiresAt(expire())
+                    .sign(algorithm);
+        } catch (JWTCreationException e) {
+            throw new RuntimeException(e.getMessage());
         }
+    }
 
     public String validateToken(String token) {
         try {

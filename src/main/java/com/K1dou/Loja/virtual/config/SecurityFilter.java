@@ -1,7 +1,6 @@
 package com.K1dou.Loja.virtual.config;
 
 
-
 import com.K1dou.Loja.virtual.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,31 +27,34 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = recoverToken(request);
-        if (token!=null){
-            //retorna um usuario
-            var login = tokenService.validateToken(token);
+        try {
 
-            //usernull
-            UserDetails user= usuarioRepository.findByLogin(login);
 
-            //PROVAVELMENTEAQ
-            var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            String token = recoverToken(request);
+            if (token != null) {
+                //retorna um usuario
+                var login = tokenService.validateToken(token);
 
+                //usernull
+                UserDetails user = usuarioRepository.findByLogin(login);
+
+                //PROVAVELMENTEAQ
+                var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+
+            }
+            filterChain.doFilter(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("Ocorreu um erro no sistema, avise o administrador: \n" + e.getMessage());
         }
-       filterChain.doFilter(request,response);
-
     }
-
-
-
-
 
 
     private String recoverToken(HttpServletRequest request) {
         var authorizationHeader = request.getHeader("Authorization");
-        if(authorizationHeader ==null)return null;
-        return authorizationHeader.replace("Bearer ","");
+        if (authorizationHeader == null) return null;
+        return authorizationHeader.replace("Bearer ", "");
     }
 }

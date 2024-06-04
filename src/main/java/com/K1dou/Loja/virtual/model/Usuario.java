@@ -16,7 +16,7 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String login;
     @Column(nullable = false)
     private String senha;
@@ -29,6 +29,18 @@ public class Usuario implements UserDetails {
     @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
     private Pessoa pessoa;
 
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
+    private Pessoa empresa;
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
+    }
+
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_acessos", uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "acesso_id" }, name = "unique_acesso_user"),
 
@@ -40,6 +52,15 @@ public class Usuario implements UserDetails {
     )
     private List<Acesso> acessos = new ArrayList<>();
 
+
+    public Usuario(String login, String senha, Date dataAtualSenha, Pessoa pessoa, Pessoa empresa, List<Acesso> acessos) {
+        this.login = login;
+        this.senha = senha;
+        this.dataAtualSenha = dataAtualSenha;
+        this.pessoa = pessoa;
+        this.empresa = empresa;
+        this.acessos = acessos;
+    }
 
     public Usuario(String login, String senha, Date dataAtualSenha, Pessoa pessoa, List<Acesso> acessos) {
         this.login = login;

@@ -37,6 +37,17 @@ public class Endereco {
     @Enumerated(EnumType.STRING)
     private TipoEndereco tipoEndereco;
 
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
+    private Pessoa empresa;
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
+    }
 
     public TipoEndereco getTipoEndereco() {
         return tipoEndereco;

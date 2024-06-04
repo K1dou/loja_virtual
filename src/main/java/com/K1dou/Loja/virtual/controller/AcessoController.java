@@ -1,5 +1,7 @@
 package com.K1dou.Loja.virtual.controller;
 
+import com.K1dou.Loja.virtual.LojaVirtualApplication;
+import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.Acesso;
 import com.K1dou.Loja.virtual.repository.AcessoRepository;
 import com.K1dou.Loja.virtual.service.AcessoService;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/acesso")
@@ -21,7 +24,16 @@ public class AcessoController {
     private AcessoRepository acessoRepository;
 
     @PostMapping("/salvarAcesso")
-    public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso){
+    public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) throws ExceptionLojaVirtual {
+
+       if (acesso.getId()==null){
+           List<Acesso> acessos = acessoRepository.buscarAcessoDesc(acesso.getDescricao().toUpperCase());
+           if (!acessos.isEmpty()){
+               throw new ExceptionLojaVirtual("Já existe Acesso com a descrição: "+acesso.getDescricao());
+           }
+       }
+
+
 
         Acesso acessoSalvo = acessoService.save(acesso);
 
@@ -49,9 +61,10 @@ public class AcessoController {
 
 
     @GetMapping("/obterAcesso/{id}")
-    public ResponseEntity<Acesso> obterAcesso(@PathVariable Long id){
+    public ResponseEntity<Acesso> obterAcesso(@PathVariable Long id) throws ExceptionLojaVirtual {
 
-      Acesso acesso= acessoRepository.findById(id).get();
+      Acesso acesso= acessoRepository.findById(id).orElseThrow(()->new ExceptionLojaVirtual("Não encontrado Acesso com código"));
+
 
         return new ResponseEntity<Acesso>(acesso,HttpStatus.OK);
 

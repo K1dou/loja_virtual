@@ -1,29 +1,19 @@
 package com.K1dou.Loja.virtual;
 
 import com.K1dou.Loja.virtual.controller.AcessoController;
-import com.K1dou.Loja.virtual.model.Acesso;
+
 import com.K1dou.Loja.virtual.repository.AcessoRepository;
 import com.K1dou.Loja.virtual.service.AcessoService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
 
 @SpringBootTest
-@Configuration
 class LojaVirtualApplicationTests extends TestCase {
 
 
