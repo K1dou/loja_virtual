@@ -6,12 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 
+    @Query(value = "SELECT u.* FROM Usuario u WHERE u.data_atual_senha <= CURRENT_DATE - 90 )", nativeQuery = true)
+    List<Usuario> usuarioSenhaVencida();
+
     Usuario findByLogin(String login);
 
+    //ver se a pessoa ja existe nos usuarios
     @Query(value = "select u from Usuario u where u.pessoa.id = ?1 or u.login = ?2")
     Usuario findByPessoa(Long id, String email);
 
@@ -22,4 +28,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Modifying
     @Query(nativeQuery = true, value = "insert into usuarios_acessos(usuario_id, acesso_id) values (?1,(select id from acesso where descricao = 'ROLE_USER'))")
     void InsereAcessoUserPj(Long iduser);
+
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "insert into usuarios_acessos(usuario_id, acesso_id) values (?1,(select id from acesso where descricao = ?2 limit 1))")
+    void InsereAcessoUserPj(Long iduser, String acesso);
 }

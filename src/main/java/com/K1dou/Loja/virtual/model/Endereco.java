@@ -1,6 +1,7 @@
 package com.K1dou.Loja.virtual.model;
 
 import com.K1dou.Loja.virtual.enums.TipoEndereco;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -28,7 +29,8 @@ public class Endereco {
     @Column(nullable = false)
     private String cidade;
 
-    //revisar
+
+    @JsonIgnore
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
@@ -37,6 +39,7 @@ public class Endereco {
     @Enumerated(EnumType.STRING)
     private TipoEndereco tipoEndereco;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
     private Pessoa empresa;
