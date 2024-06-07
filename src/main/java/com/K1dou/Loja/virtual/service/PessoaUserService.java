@@ -1,5 +1,6 @@
 package com.K1dou.Loja.virtual.service;
 
+import com.K1dou.Loja.virtual.model.Dtos.CepDTO;
 import com.K1dou.Loja.virtual.model.Endereco;
 import com.K1dou.Loja.virtual.model.PessoaFisica;
 import com.K1dou.Loja.virtual.model.PessoaJuridica;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
@@ -122,6 +124,10 @@ public class PessoaUserService {
 
 
         return pessoaFisica;
+    }
+
+    public CepDTO consultaCep(String cep) {
+        return new RestTemplate().getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class).getBody();
     }
 
 
