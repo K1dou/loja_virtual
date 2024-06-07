@@ -2,7 +2,6 @@ package com.K1dou.Loja.virtual.exceptions;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -20,6 +19,7 @@ import java.util.List;
 public class ControllerException extends ResponseEntityExceptionHandler {
 
 
+
     @ExceptionHandler(ExceptionLojaVirtual.class)
     public ResponseEntity<BodyError> exceptionLoja(ExceptionLojaVirtual e) {
         BodyError bodyError = new BodyError(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -30,28 +30,29 @@ public class ControllerException extends ResponseEntityExceptionHandler {
     @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
     public ResponseEntity<BodyError> handleExceptionInternal(Exception ex, WebRequest request) {
 
-    BodyError bodyError = new BodyError();
-    String msg = "";
+        BodyError bodyError = new BodyError();
+        String msg = "";
 
-    if (ex instanceof MethodArgumentNotValidException) {
-        List<ObjectError> list = ((MethodArgumentNotValidException) ex).getBindingResult().getAllErrors();
-        for (ObjectError objectError : list) {
-            msg += objectError.getDefaultMessage() + "; ";
+        if (ex instanceof MethodArgumentNotValidException) {
+            List<ObjectError> list = ((MethodArgumentNotValidException) ex).getAllErrors();
+            for (ObjectError objectError : list) {
+                msg += objectError.getDefaultMessage() + "; ";
+            }
+        } else if (ex instanceof HttpMessageNotReadableException) {
+            msg = "Não está enviando dados para o BODY corpo da requisição";
+        } else {
+            msg = ex.getMessage();
         }
-    } else if (ex instanceof HttpMessageNotReadableException) {
-        msg = "Não está enviando dados para o BODY corpo da requisição";
-    } else {
-        msg = ex.getMessage();
+
+        bodyError.setError(msg);
+        bodyError.setCode(HttpStatus.BAD_REQUEST);
+
+        return ResponseEntity.badRequest().body(bodyError);
     }
 
-    bodyError.setError(msg);
-    bodyError.setCode(HttpStatus.BAD_REQUEST);
-
-    return ResponseEntity.badRequest().body(bodyError);
-}
 
     @ExceptionHandler({DataIntegrityViolationException.class, ConstraintViolationException.class, SQLException.class})
-    protected ResponseEntity<Object> handleExceptionDataIntegry(Exception ex) {
+    public ResponseEntity<Object> handleExceptionDataIntegry(Exception ex) {
 
         BodyError bodyError = new BodyError();
         String msg = "";

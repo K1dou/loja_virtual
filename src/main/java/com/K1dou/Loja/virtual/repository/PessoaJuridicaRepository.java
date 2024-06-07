@@ -10,4 +10,8 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica,L
     @Query("SELECT pj FROM PessoaJuridica pj WHERE pj.cnpj = ?1")
     public PessoaJuridica existeCnpjCadastrado(String cnpj);
 
+    @Query("SELECT pj FROM PessoaJuridica pj WHERE pj.inscEstadual = ?1")
+    public PessoaJuridica existeInsEstadualCadastrado(String inscEstadual);
+
+
 }

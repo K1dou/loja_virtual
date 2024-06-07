@@ -1,7 +1,10 @@
 package com.K1dou.Loja.virtual.service;
 
+import com.K1dou.Loja.virtual.model.Endereco;
+import com.K1dou.Loja.virtual.model.PessoaFisica;
 import com.K1dou.Loja.virtual.model.PessoaJuridica;
 import com.K1dou.Loja.virtual.model.Usuario;
+import com.K1dou.Loja.virtual.repository.PessoaFisicaRepository;
 import com.K1dou.Loja.virtual.repository.PessoaJuridicaRepository;
 import com.K1dou.Loja.virtual.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ import java.util.Calendar;
 
 @Service
 public class PessoaUserService {
+
+    @Autowired
+    private PessoaFisicaRepository pessoaFisicaRepository;
 
     @Autowired
     private PessoaJuridicaRepository pessoaJuridicaRepository;
@@ -31,7 +37,7 @@ public class PessoaUserService {
     @Autowired
     private ServiceSendEmail serviceSendEmail;
 
-    public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica) {
+    public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica) throws MessagingException, UnsupportedEncodingException {
 
         for (int i = 0; i < pessoaJuridica.getEnderecos().size(); i++) {
             pessoaJuridica.getEnderecos().get(i).setPessoa(pessoaJuridica);
@@ -59,8 +65,8 @@ public class PessoaUserService {
             usuarioPj.setSenha(senhaCrip);
             usuarioRepository.save(usuarioPj);
 
-            usuarioRepository.InsereAcessoUserPj(usuarioPj.getId());
-            usuarioRepository.InsereAcessoUserPj(usuarioPj.getId(),"ROLE_ADMIN");
+            usuarioRepository.InsereAcessoUser(usuarioPj.getId());
+            usuarioRepository.InsereAcessoUser(usuarioPj.getId(), "ROLE_ADMIN");
 
             StringBuilder menssagemHtml = new StringBuilder();
             menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja Virtual</b><br/>");
@@ -68,17 +74,55 @@ public class PessoaUserService {
             menssagemHtml.append("<b>Senha: ").append(senha).append("<br/><br/>");
             menssagemHtml.append("<b>Obrigado!</b>");
 
-            try {
-                serviceSendEmail.enviarEmailHtml("Acesso Gerado para Loja Virtual", menssagemHtml.toString(), pessoaJuridica.getEmail());
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
+
+            serviceSendEmail.enviarEmailHtml("Acesso Gerado para Loja Virtual", menssagemHtml.toString(), pessoaJuridica.getEmail());
+
         }
 
         return pessoaJuridica;
 
     }
+
+    public PessoaFisica salvarPessoaFisica(PessoaFisica pessoaFisica) throws MessagingException, UnsupportedEncodingException {
+
+        for (Endereco endereco : pessoaFisica.getEnderecos()) {
+            endereco.setPessoa(pessoaFisica);
+//            endereco.setEmpresa(pessoaFisica);
+
+        }
+        pessoaFisicaRepository.save(pessoaFisica);
+
+        Usuario usuariopf = usuarioRepository.findByPessoa(pessoaFisica.getId(), pessoaFisica.getEmail());
+        if (usuariopf == null) {
+            String constraint = usuarioRepository.consultaConstraintAcesso();
+            if (constraint != null) {
+                jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint + "; commit;");
+            }
+            String senha = "" + Calendar.getInstance().getTimeInMillis();
+            var senhaCrip = passwordEncoder.encode(senha);
+
+            usuariopf = new Usuario();
+            usuariopf.setEmpresa(pessoaFisica);
+            usuariopf.setPessoa(pessoaFisica.getEmpresa());
+            usuariopf.setLogin(pessoaFisica.getEmail());
+            usuariopf.setSenha(senhaCrip);
+            usuariopf.setDataAtualSenha(Calendar.getInstance().getTime());
+
+            usuarioRepository.save(usuariopf);
+            usuarioRepository.InsereAcessoUser(usuariopf.getId());
+
+            StringBuilder menssagemHtml = new StringBuilder();
+            menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja Virtual</b><br/>");
+            menssagemHtml.append("<b>Login: " + pessoaFisica.getEmail() + "</b><br/>");
+            menssagemHtml.append("<b>Senha: ").append(senha).append("<br/><br/>");
+            menssagemHtml.append("<b>Obrigado!</b>");
+
+            serviceSendEmail.enviarEmailHtml("Acesso Gerado para Loja Virtual", menssagemHtml.toString(), pessoaFisica.getEmail());
+        }
+
+
+        return pessoaFisica;
+    }
+
 
 }

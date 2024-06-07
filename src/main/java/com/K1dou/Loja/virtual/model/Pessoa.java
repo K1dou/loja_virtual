@@ -1,6 +1,7 @@
 package com.K1dou.Loja.virtual.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,13 @@ public abstract class Pessoa {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_pessoa")
     private Long id;
 
+    @Size(min= 4,message = "Nome deve ter no minimo 4 letras")
+    @NotBlank(message = "Nome deve ser informado")
+    @NotNull(message = "Nome deve ser informado")
     @Column(nullable = false)
     private String nome;
+
+    @Email
     @Column(nullable = false)
     private String email;
 
