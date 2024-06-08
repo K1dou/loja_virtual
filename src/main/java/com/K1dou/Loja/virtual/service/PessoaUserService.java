@@ -1,6 +1,7 @@
 package com.K1dou.Loja.virtual.service;
 
 import com.K1dou.Loja.virtual.model.Dtos.CepDTO;
+import com.K1dou.Loja.virtual.model.Dtos.ConsultaCnpjDTO;
 import com.K1dou.Loja.virtual.model.Endereco;
 import com.K1dou.Loja.virtual.model.PessoaFisica;
 import com.K1dou.Loja.virtual.model.PessoaJuridica;
@@ -130,5 +131,8 @@ public class PessoaUserService {
         return new RestTemplate().getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class).getBody();
     }
 
+    public ConsultaCnpjDTO consultaCnpjReceitaWS(String cnpj){
+        return new RestTemplate().getForEntity("https://receitaws.com.br/v1/cnpj/"+cnpj,ConsultaCnpjDTO.class).getBody();
+    }
 
 }

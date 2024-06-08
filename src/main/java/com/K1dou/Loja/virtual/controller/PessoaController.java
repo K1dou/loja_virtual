@@ -1,7 +1,9 @@
 package com.K1dou.Loja.virtual.controller;
 
+import com.K1dou.Loja.virtual.enums.TipoPessoa;
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.Dtos.CepDTO;
+import com.K1dou.Loja.virtual.model.Dtos.ConsultaCnpjDTO;
 import com.K1dou.Loja.virtual.model.Endereco;
 import com.K1dou.Loja.virtual.model.PessoaFisica;
 import com.K1dou.Loja.virtual.model.PessoaJuridica;
@@ -38,32 +40,35 @@ public class PessoaController {
     private EnderecoRepository enderecoRepository;
 
 
+    @GetMapping("/consultaCnpjReceitaWs/{cnpj}")
+    public ResponseEntity<ConsultaCnpjDTO> dto(@PathVariable String cnpj) {
+        return new ResponseEntity<ConsultaCnpjDTO>(pessoaUserService.consultaCnpjReceitaWS(cnpj), HttpStatus.OK);
+    }
 
     @GetMapping("/consultaPjNome/{nome}")
-    public ResponseEntity<List<PessoaJuridica>>findBynomePj( @PathVariable String nome){
-        List<PessoaJuridica>pessoaJuridicas = pessoaJuridicaRepository.findByNome(nome);
-        return new ResponseEntity<List<PessoaJuridica>>(pessoaJuridicas,HttpStatus.FOUND);
+    public ResponseEntity<List<PessoaJuridica>> findBynomePj(@PathVariable String nome) {
+        List<PessoaJuridica> pessoaJuridicas = pessoaJuridicaRepository.findByNome(nome);
+        return new ResponseEntity<List<PessoaJuridica>>(pessoaJuridicas, HttpStatus.FOUND);
     }
 
     @GetMapping("/consultaPjCnpj/{cnpj}")
-    public ResponseEntity<PessoaJuridica>findByCnpj(@PathVariable String cnpj){
+    public ResponseEntity<PessoaJuridica> findByCnpj(@PathVariable String cnpj) {
         PessoaJuridica pessoaJuridica = pessoaJuridicaRepository.existeCnpjCadastrado(cnpj);
 
         return ResponseEntity.ok().body(pessoaJuridica);
     }
 
 
-
     @GetMapping("/consultaPfNome/{nome}")
-    public ResponseEntity<List<PessoaFisica>>findBynomePf( @PathVariable String nome){
-        List<PessoaFisica>pessoaFisicas = pessoaFisicaRepository.findBynomes(nome);
-        return new ResponseEntity<List<PessoaFisica>>(pessoaFisicas,HttpStatus.FOUND);
+    public ResponseEntity<List<PessoaFisica>> findBynomePf(@PathVariable String nome) {
+        List<PessoaFisica> pessoaFisicas = pessoaFisicaRepository.findBynomes(nome);
+        return new ResponseEntity<List<PessoaFisica>>(pessoaFisicas, HttpStatus.FOUND);
     }
 
     @GetMapping("/consultaPfCpf/{cpf}")
-    public ResponseEntity<PessoaFisica>findByCpf(@PathVariable String cpf){
+    public ResponseEntity<PessoaFisica> findByCpf(@PathVariable String cpf) {
         PessoaFisica pessoaFisica = pessoaFisicaRepository.pesquisaPorCpf(cpf);
-        return new ResponseEntity<PessoaFisica>(pessoaFisica,HttpStatus.FOUND);
+        return new ResponseEntity<PessoaFisica>(pessoaFisica, HttpStatus.FOUND);
     }
 
 
@@ -78,6 +83,12 @@ public class PessoaController {
     @PostMapping("/CadastroPessoaJuridica")
     public ResponseEntity<PessoaJuridica> cadastroPessoaJuridica(@RequestBody @Valid PessoaJuridica pessoaJuridica) throws ExceptionLojaVirtual, MessagingException, UnsupportedEncodingException {
 
+
+        if (pessoaJuridica.getTipoPessoa() == null) {
+            throw new ExceptionLojaVirtual("Informe o tipo Juridico ou Fornecedor da Loja");
+        }
+
+
         if (pessoaJuridica == null) {
             throw new ExceptionLojaVirtual("Pessoa juridica não pode ser NULL");
         }
@@ -91,8 +102,8 @@ public class PessoaController {
             throw new ExceptionLojaVirtual("CNPJ: " + pessoaJuridica.getCnpj() + " está invalido.");
         }
 
-        if (pessoaJuridica.getId()==null || pessoaJuridica.getId()<=0){
-            for (int i = 0; i < pessoaJuridica.getEnderecos().size() ; i++) {
+        if (pessoaJuridica.getId() == null || pessoaJuridica.getId() <= 0) {
+            for (int i = 0; i < pessoaJuridica.getEnderecos().size(); i++) {
                 CepDTO cepDTO = pessoaUserService.consultaCep(pessoaJuridica.getEnderecos().get(i).getCep());
                 pessoaJuridica.getEnderecos().get(i).setBairro(cepDTO.bairro());
                 pessoaJuridica.getEnderecos().get(i).setCidade(cepDTO.localidade());
@@ -100,11 +111,11 @@ public class PessoaController {
                 pessoaJuridica.getEnderecos().get(i).setRuaLogra(cepDTO.logradouro());
                 pessoaJuridica.getEnderecos().get(i).setUf(cepDTO.uf());
             }
-        }else {
-            for (int i = 0; i < pessoaJuridica.getEnderecos().size() ; i++) {
+        } else {
+            for (int i = 0; i < pessoaJuridica.getEnderecos().size(); i++) {
                 Endereco enderecoTemp = enderecoRepository.findById(pessoaJuridica.getEnderecos().get(i).getId()).get();
 
-                if(!enderecoTemp.getCep().equals(pessoaJuridica.getEnderecos().get(i).getCep())){
+                if (!enderecoTemp.getCep().equals(pessoaJuridica.getEnderecos().get(i).getCep())) {
 
                     CepDTO cepDTO = pessoaUserService.consultaCep(pessoaJuridica.getEnderecos().get(i).getCep());
                     pessoaJuridica.getEnderecos().get(i).setBairro(cepDTO.bairro());
@@ -127,6 +138,10 @@ public class PessoaController {
 
     @PostMapping("/CadastroPessoaFisica")
     public ResponseEntity<PessoaFisica> cadastroPessoaFisica(@RequestBody @Valid PessoaFisica pessoaFisica) throws ExceptionLojaVirtual, MessagingException, UnsupportedEncodingException {
+
+        if (pessoaFisica.getTipoPessoa() == null) {
+            pessoaFisica.setTipoPessoa(TipoPessoa.FISICA.name());
+        }
 
         if (pessoaFisica == null) {
             throw new ExceptionLojaVirtual("Pessoa física não pode ser NULL");
