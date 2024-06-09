@@ -4,7 +4,6 @@ import com.K1dou.Loja.virtual.config.TokenService;
 import com.K1dou.Loja.virtual.model.Dtos.TokenDto;
 import com.K1dou.Loja.virtual.model.Dtos.UserLogin;
 import com.K1dou.Loja.virtual.model.Usuario;
-import com.K1dou.Loja.virtual.repository.PessoaRepository;
 import com.K1dou.Loja.virtual.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +19,6 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private PessoaRepository pessoaRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired

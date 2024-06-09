@@ -30,6 +30,7 @@ public class SecurityConfig  {
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/buscarPorLogin/**").hasRole("ADMIN")
                         .requestMatchers("/pessoa/**").permitAll()
+                        .requestMatchers("/categoriaProduto/**").permitAll()
 
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
