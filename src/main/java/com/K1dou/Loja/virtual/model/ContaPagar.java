@@ -39,12 +39,12 @@ public class ContaPagar {
 
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
-    private Pessoa pessoa;
+    private PessoaFisica pessoa;
 
 
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_forn_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_forn_fk"))
-    private Pessoa pessoaFornecedor;
+    private PessoaFisica pessoaFornecedor;
 
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
@@ -119,15 +119,15 @@ public class ContaPagar {
         return pessoa;
     }
 
-    public void setPessoa(Pessoa pessoa) {
+    public void setPessoa(PessoaFisica pessoa) {
         this.pessoa = pessoa;
     }
 
-    public Pessoa getPessoaFornecedor() {
+    public PessoaFisica getPessoaFornecedor() {
         return pessoaFornecedor;
     }
 
-    public void setPessoaFornecedor(Pessoa pessoaFornecedor) {
+    public void setPessoaFornecedor(PessoaFisica pessoaFornecedor) {
         this.pessoaFornecedor = pessoaFornecedor;
     }
 
