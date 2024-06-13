@@ -35,9 +35,6 @@ public class Produto {
     @Column(columnDefinition = "text", length = 2000,nullable = false)
     private String descricao;
 
-//    @OneToMany
-//    @JoinColumn(name = "nota_item_produto_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "nota_item_produto_fk"))
-//    private NotaItemProduto notaItemProduto;
 
     @NotNull(message = "Peso deve ser informado")
     @Column(nullable = false)
@@ -85,6 +82,18 @@ public class Produto {
     @JoinColumn(name = "marca_produto_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "marca_produto_fk"))
     private MarcaProduto marcaProduto;
 
+    @ManyToOne
+    @JoinColumn(name = "nota_item_produto_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "nota_item_produto_fk"))
+    private NotaItemProduto notaItemProduto;
+
+
+    public NotaItemProduto getNotaItemProduto() {
+        return notaItemProduto;
+    }
+
+    public void setNotaItemProduto(NotaItemProduto notaItemProduto) {
+        this.notaItemProduto = notaItemProduto;
+    }
 
     public MarcaProduto getMarcaProduto() {
         return marcaProduto;

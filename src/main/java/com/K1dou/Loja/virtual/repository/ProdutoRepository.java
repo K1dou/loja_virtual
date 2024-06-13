@@ -18,8 +18,9 @@ public interface ProdutoRepository extends JpaRepository<Produto,Long> {
 
     @Query("select p from Produto p where upper(trim(p.nome)) like upper(trim(concat('%',?1,'%')))")
     public List<Produto> findByNome(String nome);
-    @Query("select p from Produto p where upper(trim(p.nome)) like upper(trim(concat('%',?1,'%'))) and empresa_id = ?2")
-    public List<Produto> findByNome(String nome,Long idEmpresa);
+
+    @Query("select p from Produto p where upper(trim(p.nome)) like upper(concat('%', trim(:nome), '%')) and p.empresa.id = :idEmpresa")
+    public List<Produto> findByNomes(String nome,Long idEmpresa);
 
 
 

@@ -2,6 +2,7 @@ package com.K1dou.Loja.virtual.model.Dtos;
 
 import com.K1dou.Loja.virtual.model.CategoriaProduto;
 import com.K1dou.Loja.virtual.model.MarcaProduto;
+import com.K1dou.Loja.virtual.model.NotaItemProduto;
 import com.K1dou.Loja.virtual.model.PessoaJuridica;
 
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ public record ProdutoDTO(Long id,
                          Double altura,
                          CategoriaProduto categoriaProduto,
                          MarcaProduto marcaProduto,
+                         NotaItemProduto notaItemProduto,
                          PessoaJuridica empresa,
                          Double profundidade,
                          BigDecimal valorVenda,

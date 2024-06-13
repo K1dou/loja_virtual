@@ -32,6 +32,7 @@ public class SecurityConfig  {
                         .requestMatchers("/pessoa/**").permitAll()
                         .requestMatchers("/categoriaProduto/**").permitAll()
                         .requestMatchers("/produto/**").permitAll()
+                        .requestMatchers("/marcaProduto/**").permitAll()
 
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

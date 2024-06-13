@@ -9,10 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,17 +38,50 @@ public class ProdutoController {
 
 
         if (dto.id() == null) {
-            List<Produto> produtos = produtoRepository.findByNome(dto.nome().toUpperCase(), dto.empresa().getId());
+            List<Produto> produtos = produtoRepository.findByNomes(dto.nome().toUpperCase(), dto.empresa().getId());
 
             if (!produtos.isEmpty()) {
                 throw new ExceptionLojaVirtual("Já existe produto com esse nome " + dto.nome());
             }
 
         }
-
-
         ProdutoDTO produtoDTO = produtoService.cadastrarProduto(dto);
         return new ResponseEntity<ProdutoDTO>(produtoDTO, HttpStatus.CREATED);
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<Produto>> findAll() {
+
+
+        return new ResponseEntity<List<Produto>>(produtoService.findAllProduto(), HttpStatus.OK);
+    }
+
+    @GetMapping("/findProdutoByName/{nome}")
+    public ResponseEntity<List<Produto>> findProdutoByName(@PathVariable  String nome){
+
+
+        return new ResponseEntity<List<Produto>>(produtoService.findByNome(nome),HttpStatus.OK);
+    }
+
+    @GetMapping("/findProdutoById/{id}")
+    public ResponseEntity<Produto> findProdutoById(@PathVariable Long id) throws ExceptionLojaVirtual {
+
+
+        return new ResponseEntity<Produto>(produtoService.findById(id),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?>deleteProdutoById(@PathVariable Long id){
+
+
+        return new ResponseEntity<>("Produto deletado",HttpStatus.OK);
+    }
+
+    public ResponseEntity<Produto>updateProduto(@RequestBody Produto produto){
+
+
+        return new ResponseEntity<Produto>(produtoService.updateProduto(produto),HttpStatus.OK);
     }
 
 
