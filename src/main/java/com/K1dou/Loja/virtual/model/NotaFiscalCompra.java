@@ -2,6 +2,8 @@ package com.K1dou.Loja.virtual.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,14 +18,18 @@ public class NotaFiscalCompra {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_nota_fiscal_compra")
     private Long id;
 
+    @NotNull(message = "Numero da nota é obrigatório")
     @Column(nullable = false)
     private String numeroNota;
 
+    @NotNull(message = "Serie de nota é obrigatório")
     @Column(nullable = false)
     private String serieNota;
 
+    @NotNull(message = "Descrição é obrigatório")
     private String descricaoObs;
 
+    @NotNull(message = "Valor total é obrigatório")
     @Column(nullable = false)
     private BigDecimal valorTotal;
 
@@ -32,28 +38,32 @@ public class NotaFiscalCompra {
     @Column(nullable = false)
     private BigDecimal valorIcms;
 
+
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataCompra;
 
+    @NotNull(message = "Id da Pessoa é obrigatório")
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
-    private Pessoa pessoa;
+    private PessoaJuridica pessoa;
 
+    @NotNull(message = "Id Conta pagar é obrigatório")
     @ManyToOne
     @JoinColumn(name = "conta_pagar_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "conta_pagar_fk"))
     private ContaPagar contaPagar;
 
+    @NotNull(message = "Id da Empresa é obrigatório")
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
 
-    public Pessoa getEmpresa() {
+    public PessoaJuridica getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Pessoa empresa) {
+    public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
     }
 
@@ -121,11 +131,11 @@ public class NotaFiscalCompra {
         this.dataCompra = dataCompra;
     }
 
-    public Pessoa getPessoa() {
+    public PessoaJuridica getPessoa() {
         return pessoa;
     }
 
-    public void setPessoa(Pessoa pessoa) {
+    public void setPessoa(PessoaJuridica pessoa) {
         this.pessoa = pessoa;
     }
 

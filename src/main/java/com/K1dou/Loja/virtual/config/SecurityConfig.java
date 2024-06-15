@@ -34,6 +34,7 @@ public class SecurityConfig  {
                         .requestMatchers("/produto/**").permitAll()
                         .requestMatchers("/marcaProduto/**").permitAll()
                         .requestMatchers("/contaPagar/**").permitAll()
+                        .requestMatchers("/notaFiscalCompra/**").permitAll()
 
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
