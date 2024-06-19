@@ -41,6 +41,13 @@ public abstract class Pessoa {
     @JoinColumn(name = "empresa_id",nullable = true,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
     private Pessoa empresa;
 
+
+
+    public Pessoa(String nome, String email) {
+        this.nome = nome;
+        this.email = email;
+    }
+
     public Pessoa getEmpresa() {
         return empresa;
     }

@@ -26,5 +26,7 @@ public interface NotaFiscalCompraRepository extends JpaRepository<NotaFiscalComp
 //    public void deleteItemNotaFiscalCompra(Long idNotaFiscalCompra);
 //
 
+    //itemNotaFiscal
+
 
 }

@@ -60,7 +60,7 @@ public class ControllerException {
         bodyError.setCode(HttpStatus.BAD_REQUEST);
         ex.printStackTrace();
 
-        serviceSendEmail.enviarEmailHtml("Erro na loja virtual", ExceptionUtils.getStackTrace(ex),"hique1276@gmail.com");
+//        serviceSendEmail.enviarEmailHtml("Erro na loja virtual", ExceptionUtils.getStackTrace(ex),"hique1276@gmail.com");
 
         return ResponseEntity.badRequest().body(bodyError);
     }

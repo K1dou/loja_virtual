@@ -1,6 +1,7 @@
 package com.K1dou.Loja.virtual.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -13,26 +14,41 @@ public class NotaItemProduto {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_nota_item_produto")
     private Long id;
 
+    @NotNull
     @Column(nullable = false)
     private Double quantidade;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "nota_fiscal_compra_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "nota_fiscal_compra_fk"))
     private NotaFiscalCompra notaFiscalCompra;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "produto_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "produto_fk"))
     private Produto produto;
 
+    @NotNull
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
-    public Pessoa getEmpresa() {
+    public NotaItemProduto() {
+    }
+
+    public NotaItemProduto(Long id, Double quantidade, NotaFiscalCompra notaFiscalCompra, Produto produto, PessoaJuridica empresa) {
+        this.id = id;
+        this.quantidade = quantidade;
+        this.notaFiscalCompra = notaFiscalCompra;
+        this.produto = produto;
+        this.empresa = empresa;
+    }
+
+    public PessoaJuridica getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Pessoa empresa) {
+    public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
     }
 

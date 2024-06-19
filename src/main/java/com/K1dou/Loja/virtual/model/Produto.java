@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -82,18 +84,8 @@ public class Produto {
     @JoinColumn(name = "marca_produto_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "marca_produto_fk"))
     private MarcaProduto marcaProduto;
 
-    @ManyToOne
-    @JoinColumn(name = "nota_item_produto_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "nota_item_produto_fk"))
-    private NotaItemProduto notaItemProduto;
-
-
-    public NotaItemProduto getNotaItemProduto() {
-        return notaItemProduto;
-    }
-
-    public void setNotaItemProduto(NotaItemProduto notaItemProduto) {
-        this.notaItemProduto = notaItemProduto;
-    }
+    @OneToMany(mappedBy = "produto",orphanRemoval = true,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<ImagemProduto>imagens = new ArrayList<>();
 
     public MarcaProduto getMarcaProduto() {
         return marcaProduto;
@@ -121,6 +113,14 @@ public class Produto {
 
     public void setCategoriaProduto(CategoriaProduto categoriaProduto) {
         this.categoriaProduto = categoriaProduto;
+    }
+
+    public List<ImagemProduto> getImagens() {
+        return imagens;
+    }
+
+    public void setImagens(List<ImagemProduto> imagens) {
+        this.imagens = imagens;
     }
 
     public void setId(Long id) {
