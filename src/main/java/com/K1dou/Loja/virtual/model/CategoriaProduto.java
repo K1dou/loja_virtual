@@ -1,5 +1,6 @@
 package com.K1dou.Loja.virtual.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;

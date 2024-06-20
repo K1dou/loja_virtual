@@ -21,19 +21,19 @@ public class ImagemProduto {
     @Column(columnDefinition = "text",nullable = false)
     private String imagemMiniatura;
 
-    @ManyToOne(targetEntity = Produto.class,cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = Produto.class)
     @JoinColumn(name = "produto_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "produto_fk"))
     private Produto produto;
 
-    @ManyToOne(targetEntity = Pessoa.class)
+    @ManyToOne
     @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
-    public Pessoa getEmpresa() {
+    public PessoaJuridica getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Pessoa empresa) {
+    public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
     }
 
