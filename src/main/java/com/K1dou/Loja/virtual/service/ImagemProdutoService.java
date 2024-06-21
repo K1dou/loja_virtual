@@ -2,6 +2,7 @@ package com.K1dou.Loja.virtual.service;
 
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.Dtos.ImagemProdutoDTO;
+import com.K1dou.Loja.virtual.model.Dtos.ImagemProdutoRetornoDTO;
 import com.K1dou.Loja.virtual.model.ImagemProduto;
 import com.K1dou.Loja.virtual.model.PessoaJuridica;
 import com.K1dou.Loja.virtual.model.Produto;
@@ -80,41 +81,48 @@ public class ImagemProdutoService {
         return modelMapper.map(imagemProduto, ImagemProdutoDTO.class);
     }
 
-    public List<ImagemProdutoDTO>findImagensByProduto(Long idProduto) throws ExceptionLojaVirtual {
-      List<ImagemProduto> imagemProduto = imagemProdutoRepository.findImagensByProduto(idProduto);
-      List<ImagemProdutoDTO>imagemProdutoDTOS = imagemProduto.stream().map(item->modelMapper.map(item, ImagemProdutoDTO.class)).collect(Collectors.toList());
+    public List<ImagemProdutoRetornoDTO> findImagensByProduto(Long idProduto) throws ExceptionLojaVirtual {
 
-      if (imagemProdutoDTOS.isEmpty()){
-          throw new ExceptionLojaVirtual("Nenhum item encontrado");
-      }
+        modelMapper.typeMap(ImagemProduto.class, ImagemProdutoRetornoDTO.class).addMapping(src -> src.getProduto().getId(), (dest, v) -> dest.setProduto((Long) v));
+        modelMapper.typeMap(ImagemProduto.class, ImagemProdutoRetornoDTO.class).addMapping(src -> src.getEmpresa().getId(), (dest, v) -> dest.setEmpresa((Long) v));
+
+        List<ImagemProduto> imagemProduto = imagemProdutoRepository.findImagensByProduto(idProduto);
+        List<ImagemProdutoRetornoDTO> imagemProdutoDTOS = imagemProduto.stream().map(item -> modelMapper.map(item, ImagemProdutoRetornoDTO.class)).collect(Collectors.toList());
+
+        if (imagemProduto.isEmpty()) {
+            throw new ExceptionLojaVirtual("Nenhum item encontrado");
+        }
         return imagemProdutoDTOS;
     }
 
     public void deleteImagemProdutoByIdProduto(Long idProduto) throws ExceptionLojaVirtual {
-       List<ImagemProduto> imagemProduto = imagemProdutoRepository.deleteImagemProdutoByIdProduto(idProduto);
-       if (imagemProduto.isEmpty()){
-           throw new ExceptionLojaVirtual("Imagens ja foram apagadas ou não existem");
-       }
+        List<ImagemProduto> imagemProduto = imagemProdutoRepository.findImagensByProduto(idProduto);
+        if (imagemProduto.isEmpty()) {
+            throw new ExceptionLojaVirtual("Imagens ja foram apagadas ou não existem");
+        }
+        imagemProdutoRepository.deleteImagemProdutoByIdProduto(idProduto);
     }
 
     public void deleteImagemProdutoById(Long idImagemProduto) throws ExceptionLojaVirtual {
-        ImagemProduto imagemProduto = imagemProdutoRepository.findById(idImagemProduto).orElseThrow(()->new ExceptionLojaVirtual("Imagem ja foi apagada ou não existe"));
+        ImagemProduto imagemProduto = imagemProdutoRepository.findById(idImagemProduto).orElseThrow(() -> new ExceptionLojaVirtual("Imagem ja foi apagada ou não existe"));
 
         imagemProdutoRepository.deleteById(idImagemProduto);
     }
 
-    public ImagemProdutoDTO buscaImagemProdutoById(Long idImagemProduto) throws ExceptionLojaVirtual {
-        ImagemProduto imagemProduto = imagemProdutoRepository.findById(idImagemProduto).orElseThrow(()->new ExceptionLojaVirtual("Id invalido ou imagem não existe"));
+    public ImagemProdutoRetornoDTO buscaImagemProdutoById(Long idImagemProduto) throws ExceptionLojaVirtual {
+        ImagemProduto imagemProduto = imagemProdutoRepository.findById(idImagemProduto).orElseThrow(() -> new ExceptionLojaVirtual("Id invalido ou imagem não existe"));
+        modelMapper.typeMap(ImagemProduto.class, ImagemProdutoRetornoDTO.class).addMapping(src -> src.getEmpresa().getId(), (dest, v) -> dest.setEmpresa((Long) v));
+        modelMapper.typeMap(ImagemProduto.class, ImagemProdutoRetornoDTO.class).addMapping(src -> src.getProduto().getId(), (dest, v) -> dest.setProduto((Long) v));
 
-        return modelMapper.map(imagemProduto,ImagemProdutoDTO.class);
+        return modelMapper.map(imagemProduto,ImagemProdutoRetornoDTO.class);
     }
 
     public ImagemProdutoDTO updateImagemProduto(ImagemProdutoDTO imagemProdutoDTO) throws ExceptionLojaVirtual {
-        ImagemProduto imagemProdutoo = imagemProdutoRepository.findById(imagemProdutoDTO.getId()).orElseThrow(()->new ExceptionLojaVirtual("Id invalido ou imagem não existe"));
+        ImagemProduto imagemProdutoo = imagemProdutoRepository.findById(imagemProdutoDTO.getId()).orElseThrow(() -> new ExceptionLojaVirtual("Id invalido ou imagem não existe"));
         ImagemProduto imagemProduto = modelMapper.map(imagemProdutoDTO, ImagemProduto.class);
         imagemProdutoRepository.save(imagemProduto);
 
-        return modelMapper.map(imagemProduto,ImagemProdutoDTO.class);
+        return modelMapper.map(imagemProduto, ImagemProdutoDTO.class);
     }
 
 

@@ -2,6 +2,7 @@ package com.K1dou.Loja.virtual.controller;
 
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.Dtos.ImagemProdutoDTO;
+import com.K1dou.Loja.virtual.model.Dtos.ImagemProdutoRetornoDTO;
 import com.K1dou.Loja.virtual.service.ImagemProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,10 @@ public class ImagemProdutoController {
     }
 
     @GetMapping("/buscaImagensByIdProduto/{idProduto}")
-    public ResponseEntity<List<ImagemProdutoDTO>>findImagensByProdutoId(@PathVariable Long idProduto) throws ExceptionLojaVirtual {
+    public ResponseEntity<List<ImagemProdutoRetornoDTO>>findImagensByProdutoId(@PathVariable Long idProduto) throws ExceptionLojaVirtual {
 
 
-        return new ResponseEntity<List<ImagemProdutoDTO>>(imagemProdutoService.findImagensByProduto(idProduto),HttpStatus.OK);
+        return new ResponseEntity<List<ImagemProdutoRetornoDTO>>(imagemProdutoService.findImagensByProduto(idProduto),HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteImagemProdutoByIdProduto/{idProduto}")
@@ -55,10 +56,10 @@ public class ImagemProdutoController {
     }
 
     @GetMapping("/buscaImagemProdutoById/{idImagemProduto}")
-    public ResponseEntity<ImagemProdutoDTO>buscaImagemProdutoById(@PathVariable Long idImagemProduto) throws ExceptionLojaVirtual {
+    public ResponseEntity<ImagemProdutoRetornoDTO>buscaImagemProdutoById(@PathVariable Long idImagemProduto) throws ExceptionLojaVirtual {
 
 
-        return new ResponseEntity<ImagemProdutoDTO>(imagemProdutoService.buscaImagemProdutoById(idImagemProduto),HttpStatus.OK);
+        return new ResponseEntity<ImagemProdutoRetornoDTO>(imagemProdutoService.buscaImagemProdutoById(idImagemProduto),HttpStatus.OK);
     }
 
     @PutMapping("/updateImagemProduto")

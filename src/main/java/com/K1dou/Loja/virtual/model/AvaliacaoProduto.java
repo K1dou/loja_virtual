@@ -1,6 +1,9 @@
 package com.K1dou.Loja.virtual.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Objects;
 
@@ -13,15 +16,18 @@ public class AvaliacaoProduto {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_avaliacao_produto")
     private Long id;
 
+    @Min(1)
+    @Max(10)
     @Column(nullable = false)
     private Integer nota;
 
+    @NotEmpty
     @Column(nullable = false)
     private String descricao;
 
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
-    private Pessoa pessoa;
+    private PessoaFisica pessoa;
 
 
 
@@ -32,14 +38,25 @@ public class AvaliacaoProduto {
 
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
+    public AvaliacaoProduto(Long id, Integer nota, String descricao, PessoaFisica pessoa, Produto produto, PessoaJuridica empresa) {
+        this.id = id;
+        this.nota = nota;
+        this.descricao = descricao;
+        this.pessoa = pessoa;
+        this.produto = produto;
+        this.empresa = empresa;
+    }
 
-    public Pessoa getEmpresa() {
+    public AvaliacaoProduto() {
+    }
+
+    public PessoaJuridica getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Pessoa empresa) {
+    public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
     }
 
@@ -67,11 +84,11 @@ public class AvaliacaoProduto {
         this.nota = nota;
     }
 
-    public Pessoa getPessoa() {
+    public PessoaFisica getPessoa() {
         return pessoa;
     }
 
-    public void setPessoa(Pessoa pessoa) {
+    public void setPessoa(PessoaFisica pessoa) {
         this.pessoa = pessoa;
     }
 

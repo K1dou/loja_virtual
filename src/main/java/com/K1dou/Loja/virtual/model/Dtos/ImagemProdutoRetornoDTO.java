@@ -1,21 +1,17 @@
 package com.K1dou.Loja.virtual.model.Dtos;
 
-import com.K1dou.Loja.virtual.model.PessoaJuridica;
-import com.K1dou.Loja.virtual.model.Produto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-public class ImagemProdutoDTO {
+public class ImagemProdutoRetornoDTO {
 
     private Long id;
     private String imagemOriginal;
     private String imagemMiniatura;
-    private Produto produto;
-    private PessoaJuridica empresa;
+    private Long produto;
+    private Long empresa;
 
-    public ImagemProdutoDTO() {
+    public ImagemProdutoRetornoDTO() {
     }
 
-    public ImagemProdutoDTO(Long id, String imagemOriginal, String imagemMiniatura, Produto produto, PessoaJuridica empresa) {
+    public ImagemProdutoRetornoDTO(Long id, String imagemOriginal, String imagemMiniatura, Long produto, Long empresa) {
         this.id = id;
         this.imagemOriginal = imagemOriginal;
         this.imagemMiniatura = imagemMiniatura;
@@ -47,19 +43,19 @@ public class ImagemProdutoDTO {
         this.imagemMiniatura = imagemMiniatura;
     }
 
-    public Produto getProduto() {
+    public Long getProduto() {
         return produto;
     }
 
-    public void setProduto(Produto produto) {
+    public void setProduto(Long produto) {
         this.produto = produto;
     }
 
-    public PessoaJuridica getEmpresa() {
+    public Long getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(PessoaJuridica empresa) {
+    public void setEmpresa(Long empresa) {
         this.empresa = empresa;
     }
 }
