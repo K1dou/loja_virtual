@@ -1,6 +1,8 @@
 package com.K1dou.Loja.virtual.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -13,18 +15,20 @@ public class FormaPagamento {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_forma_pagamento")
     private Long id;
 
+    @NotEmpty(message = "Descrição necessária")
+    @NotNull(message = "Descrição necessária")
     @Column(nullable = false)
     private String descricao;
 
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
-    private Pessoa empresa;
+    private PessoaJuridica empresa;
 
-    public Pessoa getEmpresa() {
+    public PessoaJuridica getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Pessoa empresa) {
+    public void setEmpresa(PessoaJuridica empresa) {
         this.empresa = empresa;
     }
 

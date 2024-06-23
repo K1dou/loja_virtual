@@ -1,73 +1,44 @@
-package com.K1dou.Loja.virtual.model;
+package com.K1dou.Loja.virtual.model.Dtos;
 
-
-import jakarta.persistence.*;
+import com.K1dou.Loja.virtual.model.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
-@Entity
-@Table(name = "vd_cp_loja_virt")
-@SequenceGenerator(name = "seq_vd_cp_loja_virt",sequenceName = "seq_vd_cp_loja_virt",initialValue = 1,allocationSize = 1)
-public class VendaCompraLojaVirtual {
+public class VendaCompraLojaVirtualDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_vd_cp_loja_virt")
     private Long id;
-
-    @ManyToOne(targetEntity = Pessoa.class,cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
     private PessoaFisica pessoa;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "endereco_entrega_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "endereco_entrega_fk"))
     private Endereco enderecoEntrega;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "endereco_cobranca_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "endereco_cobranca_fk"))
     private Endereco enderecoCobranca;
-
-    @Column(nullable = false)
     private BigDecimal valorTotal;
-
     private BigDecimal valorDesconto;
-
-    @ManyToOne
-    @JoinColumn(name = "forma_pagamento_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "forma_pagamento_fk"))
     private FormaPagamento formaPagamento;
-
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "nota_fiscal_venda_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "nota_fiscal_venda_fk"))
     private NotaFiscalVenda notaFiscalVenda;
-
-    @ManyToOne
-    @JoinColumn(name = "cup_desc_id",foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "cup_desc_fk"))
     private CupDesc cupDesc;
-
-    @Column(nullable = false)
     private BigDecimal valorFrete;
-
-    @Column(nullable = false)
     private Integer diaEntrega;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
     private Date dataVenda;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
     private Date dataEntrega;
-
-    @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
     private PessoaJuridica empresa;
 
-    public PessoaJuridica getEmpresa() {
-        return empresa;
+    public VendaCompraLojaVirtualDTO() {
     }
 
-    public void setEmpresa(PessoaJuridica empresa) {
+    public VendaCompraLojaVirtualDTO(Long id, PessoaFisica pessoa, Endereco enderecoEntrega, Endereco enderecoCobranca, BigDecimal valorTotal, BigDecimal valorDesconto, FormaPagamento formaPagamento, NotaFiscalVenda notaFiscalVenda, CupDesc cupDesc, BigDecimal valorFrete, Integer diaEntrega, Date dataVenda, Date dataEntrega, PessoaJuridica empresa) {
+        this.id = id;
+        this.pessoa = pessoa;
+        this.enderecoEntrega = enderecoEntrega;
+        this.enderecoCobranca = enderecoCobranca;
+        this.valorTotal = valorTotal;
+        this.valorDesconto = valorDesconto;
+        this.formaPagamento = formaPagamento;
+        this.notaFiscalVenda = notaFiscalVenda;
+        this.cupDesc = cupDesc;
+        this.valorFrete = valorFrete;
+        this.diaEntrega = diaEntrega;
+        this.dataVenda = dataVenda;
+        this.dataEntrega = dataEntrega;
         this.empresa = empresa;
     }
 
@@ -175,16 +146,11 @@ public class VendaCompraLojaVirtual {
         this.dataEntrega = dataEntrega;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        VendaCompraLojaVirtual that = (VendaCompraLojaVirtual) o;
-        return Objects.equals(id, that.id);
+    public PessoaJuridica getEmpresa() {
+        return empresa;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
     }
 }

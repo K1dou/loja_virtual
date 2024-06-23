@@ -38,6 +38,8 @@ public class SecurityConfig  {
                         .requestMatchers("/notaItemProduto/**").permitAll()
                         .requestMatchers("/imagemProduto/**").permitAll()
                         .requestMatchers("/avaliacaoProduto/**").permitAll()
+                        .requestMatchers("/formaPagamento/**").permitAll()
+                        .requestMatchers("/vendaCompra/**").permitAll()
 
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
