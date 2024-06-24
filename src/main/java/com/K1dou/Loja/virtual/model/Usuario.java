@@ -26,22 +26,17 @@ public class Usuario implements UserDetails {
     private Date dataAtualSenha;
 
     @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "pessoa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
+    @JoinColumn(name = "pessoa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
     private Pessoa pessoa;
 
     @ManyToOne(targetEntity = Pessoa.class)
-    @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
+    @JoinColumn(name = "empresa_id", nullable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private Pessoa empresa;
 
-    public Pessoa getEmpresa() {
-        return empresa;
-    }
 
-    public void setEmpresa(Pessoa empresa) {
-        this.empresa = empresa;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinTable(name = "usuarios_acessos", uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "acesso_id" }, name = "unique_acesso_user"),
 
             joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id", table = "usuario", unique = false,
@@ -53,7 +48,8 @@ public class Usuario implements UserDetails {
     private List<Acesso> acessos = new ArrayList<>();
 
 
-    public Usuario(String login, String senha, Date dataAtualSenha, Pessoa pessoa, Pessoa empresa, List<Acesso> acessos) {
+    public Usuario(Long id, String login, String senha, Date dataAtualSenha, Pessoa pessoa, Pessoa empresa, List<Acesso> acessos) {
+        this.id = id;
         this.login = login;
         this.senha = senha;
         this.dataAtualSenha = dataAtualSenha;
@@ -62,17 +58,17 @@ public class Usuario implements UserDetails {
         this.acessos = acessos;
     }
 
-    public Usuario(String login, String senha, Date dataAtualSenha, Pessoa pessoa, List<Acesso> acessos) {
-        this.login = login;
-        this.senha = senha;
-        this.dataAtualSenha = dataAtualSenha;
-        this.pessoa = pessoa;
-        this.acessos = acessos;
-    }
-
     public Usuario(String login, String senha) {
         this.login = login;
         this.senha = senha;
+    }
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
     }
 
     public Usuario() {

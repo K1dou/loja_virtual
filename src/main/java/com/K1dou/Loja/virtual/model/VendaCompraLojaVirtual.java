@@ -33,7 +33,7 @@ public class VendaCompraLojaVirtual {
 
     private BigDecimal valorDesconto;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "forma_pagamento_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "forma_pagamento_fk"))
     private FormaPagamento formaPagamento;
 

@@ -11,6 +11,7 @@ import com.K1dou.Loja.virtual.repository.PessoaJuridicaRepository;
 import com.K1dou.Loja.virtual.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -40,90 +41,106 @@ public class PessoaUserService {
     @Autowired
     private ServiceSendEmail serviceSendEmail;
 
-    public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica) throws MessagingException, UnsupportedEncodingException {
+    public PessoaJuridica salvarPessoaJuridica(PessoaJuridica juridica) throws MessagingException, UnsupportedEncodingException {
 
-        for (int i = 0; i < pessoaJuridica.getEnderecos().size(); i++) {
-            pessoaJuridica.getEnderecos().get(i).setPessoa(pessoaJuridica);
-            pessoaJuridica.getEnderecos().get(i).setEmpresa(pessoaJuridica);
+        for (int i = 0; i< juridica.getEnderecos().size(); i++) {
+            juridica.getEnderecos().get(i).setPessoa(juridica);
+            juridica.getEnderecos().get(i).setEmpresa(juridica);
         }
 
-        pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
+        juridica = pessoaJuridicaRepository.save(juridica);
 
-        Usuario usuarioPj = usuarioRepository.findByPessoa(pessoaJuridica.getId(), pessoaJuridica.getEmail());
+        Usuario usuarioPj = usuarioRepository.findByPessoa(juridica.getId(), juridica.getEmail());
 
         if (usuarioPj == null) {
 
             String constraint = usuarioRepository.consultaConstraintAcesso();
             if (constraint != null) {
-                jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint + "; commit;");
+                jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint +"; commit;");
             }
+
             usuarioPj = new Usuario();
             usuarioPj.setDataAtualSenha(Calendar.getInstance().getTime());
-            usuarioPj.setEmpresa(pessoaJuridica);
-            usuarioPj.setPessoa(pessoaJuridica);
-            usuarioPj.setLogin(pessoaJuridica.getEmail());
+            usuarioPj.setEmpresa(juridica);
+            usuarioPj.setPessoa(juridica);
+            usuarioPj.setLogin(juridica.getEmail());
 
             String senha = "" + Calendar.getInstance().getTimeInMillis();
-            String senhaCrip = passwordEncoder.encode(senha);
-            usuarioPj.setSenha(senhaCrip);
-            usuarioRepository.save(usuarioPj);
+            String senhaCript = new BCryptPasswordEncoder().encode(senha);
+
+            usuarioPj.setSenha(senhaCript);
+
+            usuarioPj = usuarioRepository.save(usuarioPj);
 
             usuarioRepository.InsereAcessoUser(usuarioPj.getId());
             usuarioRepository.InsereAcessoUser(usuarioPj.getId(), "ROLE_ADMIN");
 
             StringBuilder menssagemHtml = new StringBuilder();
-            menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja Virtual</b><br/>");
-            menssagemHtml.append("<b>Login: " + pessoaJuridica.getEmail() + "</b><br/>");
-            menssagemHtml.append("<b>Senha: ").append(senha).append("<br/><br/>");
-            menssagemHtml.append("<b>Obrigado!</b>");
 
+            menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja virtual</b><br/>");
+            menssagemHtml.append("<b>Login: </b>"+juridica.getEmail()+"<br/>");
+            menssagemHtml.append("<b>Senha: </b>").append(senha).append("<br/><br/>");
+            menssagemHtml.append("Obrigado!");
 
-            serviceSendEmail.enviarEmailHtml("Acesso Gerado para Loja Virtual", menssagemHtml.toString(), pessoaJuridica.getEmail());
+            try {
+                serviceSendEmail.enviarEmailHtml("Acesso Gerado para Loja Virtual", menssagemHtml.toString() , juridica.getEmail());
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
 
-        return pessoaJuridica;
+        return juridica;
 
     }
 
     public PessoaFisica salvarPessoaFisica(PessoaFisica pessoaFisica) throws MessagingException, UnsupportedEncodingException {
 
-        for (Endereco endereco : pessoaFisica.getEnderecos()) {
-            endereco.setPessoa(pessoaFisica);
-//            endereco.setEmpresa(pessoaFisica);
-
+        for (int i = 0; i< pessoaFisica.getEnderecos().size(); i++) {
+            pessoaFisica.getEnderecos().get(i).setPessoa(pessoaFisica);
+            //pessoaFisica.getEnderecos().get(i).setEmpresa(pessoaFisica);
         }
-        pessoaFisicaRepository.save(pessoaFisica);
 
-        Usuario usuariopf = usuarioRepository.findByPessoa(pessoaFisica.getId(), pessoaFisica.getEmail());
-        if (usuariopf == null) {
+        pessoaFisica = pessoaFisicaRepository.save(pessoaFisica);
+
+        Usuario usuarioPj = usuarioRepository.findByPessoa(pessoaFisica.getId(), pessoaFisica.getEmail());
+
+        if (usuarioPj == null) {
+
             String constraint = usuarioRepository.consultaConstraintAcesso();
             if (constraint != null) {
-                jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint + "; commit;");
+                jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint +"; commit;");
             }
+
+            usuarioPj = new Usuario();
+            usuarioPj.setDataAtualSenha(Calendar.getInstance().getTime());
+            usuarioPj.setEmpresa(pessoaFisica.getEmpresa());
+            usuarioPj.setPessoa(pessoaFisica);
+            usuarioPj.setLogin(pessoaFisica.getEmail());
+
             String senha = "" + Calendar.getInstance().getTimeInMillis();
-            var senhaCrip = passwordEncoder.encode(senha);
+            String senhaCript = new BCryptPasswordEncoder().encode(senha);
 
-            usuariopf = new Usuario();
-            usuariopf.setEmpresa(pessoaFisica);
-            usuariopf.setPessoa(pessoaFisica.getEmpresa());
-            usuariopf.setLogin(pessoaFisica.getEmail());
-            usuariopf.setSenha(senhaCrip);
-            usuariopf.setDataAtualSenha(Calendar.getInstance().getTime());
+            usuarioPj.setSenha(senhaCript);
 
-            usuarioRepository.save(usuariopf);
-            usuarioRepository.InsereAcessoUser(usuariopf.getId());
+            usuarioPj = usuarioRepository.save(usuarioPj);
+
+            usuarioRepository.InsereAcessoUser(usuarioPj.getId());
 
             StringBuilder menssagemHtml = new StringBuilder();
-            menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja Virtual</b><br/>");
-            menssagemHtml.append("<b>Login: " + pessoaFisica.getEmail() + "</b><br/>");
-            menssagemHtml.append("<b>Senha: ").append(senha).append("<br/><br/>");
-            menssagemHtml.append("<b>Obrigado!</b>");
 
-            serviceSendEmail.enviarEmailHtml("Acesso Gerado para Loja Virtual", menssagemHtml.toString(), pessoaFisica.getEmail());
+            menssagemHtml.append("<b>Segue abaixo seus dados de acesso para a loja virtual</b><br/>");
+            menssagemHtml.append("<b>Login: </b>"+pessoaFisica.getEmail()+"<br/>");
+            menssagemHtml.append("<b>Senha: </b>").append(senha).append("<br/><br/>");
+            menssagemHtml.append("Obrigado!");
+
+            try {
+                serviceSendEmail.enviarEmailHtml("Acesso Gerado para Loja Virtual", menssagemHtml.toString() , pessoaFisica.getEmail());
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
-
-
         return pessoaFisica;
     }
 
