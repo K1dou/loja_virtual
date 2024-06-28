@@ -12,6 +12,11 @@ import java.util.List;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 
+    @Transactional
+    @Modifying
+    @Query("delete from Usuario u where u.id =?1")
+    void deleteUsuario(Long id);
+
     @Query(value = "SELECT u.* FROM Usuario u WHERE u.data_atual_senha <= CURRENT_DATE - 90 )", nativeQuery = true)
     List<Usuario> usuarioSenhaVencida();
 

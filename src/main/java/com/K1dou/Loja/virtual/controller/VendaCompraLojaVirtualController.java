@@ -7,10 +7,7 @@ import com.K1dou.Loja.virtual.service.VendaCompraLojaVirtualService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
@@ -18,6 +15,9 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping("/vendaCompra")
 public class VendaCompraLojaVirtualController {
+
+
+
 
     @Autowired
     private VendaCompraLojaVirtualService vendaCompraService;
@@ -30,6 +30,12 @@ public class VendaCompraLojaVirtualController {
         return new ResponseEntity<VendaCompraLojaVirtualDTO>(vendaCompraService.salvaVendaCompra(dto), HttpStatus.OK);
     }
 
+    @DeleteMapping("/deleteVendaTotal/{idVenda}")
+    public ResponseEntity<?>exclusaoTotalVendaBanco(@PathVariable Long idVenda){
+        vendaCompraService.exclusaoTotalVendaBanco(idVenda);
+
+        return new ResponseEntity<>("Venda Deletada",HttpStatus.OK);
+    }
 
 
 }

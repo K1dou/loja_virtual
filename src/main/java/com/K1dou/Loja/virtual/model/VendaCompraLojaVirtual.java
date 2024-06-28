@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -62,6 +63,19 @@ public class VendaCompraLojaVirtual {
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "empresa_id",nullable = false,foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,name = "pessoa_fk"))
     private PessoaJuridica empresa;
+
+    @OneToMany(mappedBy = "vendaCompraLojaVirtual",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<ItemVendaLoja>itemVendaLojas;
+
+
+
+    public List<ItemVendaLoja> getItemVendaLojas() {
+        return itemVendaLojas;
+    }
+
+    public void setItemVendaLojas(List<ItemVendaLoja> itemVendaLojas) {
+        this.itemVendaLojas = itemVendaLojas;
+    }
 
     public PessoaJuridica getEmpresa() {
         return empresa;

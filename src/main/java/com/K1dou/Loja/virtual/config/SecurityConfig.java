@@ -40,6 +40,7 @@ public class SecurityConfig  {
                         .requestMatchers("/avaliacaoProduto/**").permitAll()
                         .requestMatchers("/formaPagamento/**").permitAll()
                         .requestMatchers("/vendaCompra/**").permitAll()
+                        .requestMatchers("/usuario/**").permitAll()
 
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
