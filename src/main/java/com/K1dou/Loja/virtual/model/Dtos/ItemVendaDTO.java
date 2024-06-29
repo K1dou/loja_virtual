@@ -5,7 +5,7 @@ import com.K1dou.Loja.virtual.model.Produto;
 public class ItemVendaDTO {
 
     private Double quantidade;
-    private Produto produto;
+    private Long produtoId;
 
     public Double getQuantidade() {
         return quantidade;
@@ -15,11 +15,11 @@ public class ItemVendaDTO {
         this.quantidade = quantidade;
     }
 
-    public Produto getProduto() {
-        return produto;
+    public Long getProduto() {
+        return produtoId;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public void setProduto(Long produtoId) {
+        this.produtoId = produtoId;
     }
 }

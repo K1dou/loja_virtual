@@ -67,7 +67,18 @@ public class VendaCompraLojaVirtual {
     @OneToMany(mappedBy = "vendaCompraLojaVirtual",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     private List<ItemVendaLoja>itemVendaLojas;
 
+    private Boolean excluido = Boolean.FALSE;
 
+
+
+    
+    public Boolean getExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
+    }
 
     public List<ItemVendaLoja> getItemVendaLojas() {
         return itemVendaLojas;

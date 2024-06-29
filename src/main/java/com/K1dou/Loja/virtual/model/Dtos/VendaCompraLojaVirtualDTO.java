@@ -9,29 +9,69 @@ import java.util.List;
 
 public class VendaCompraLojaVirtualDTO {
 
-    private Pessoa pessoa;
+    private Long id;
+    private Long  idPessoa;
     private BigDecimal valorTotal;
-    private Endereco cobranca;
-    private Endereco entrega;
-    private BigDecimal valorDesc;
+    private Endereco enderecoCobranca;
+    private Endereco enderecoEntrega;
+    private BigDecimal valorDesconto;
     private BigDecimal valorFrete;
-    private List<ItemVendaDTO>itemVendaDTOS;
+    private List<ItemVendaDTO>itemVendaLojas;
 
-
-    public List<ItemVendaDTO> getItemVendaDTOS() {
-        return itemVendaDTOS;
+    public Long getId() {
+        return id;
     }
 
-    public void setItemVendaDTOS(List<ItemVendaDTO> itemVendaDTOS) {
-        this.itemVendaDTOS = itemVendaDTOS;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public BigDecimal getValorDesc() {
-        return valorDesc;
+    public Long getIdPessoa() {
+        return idPessoa;
     }
 
-    public void setValorDesc(BigDecimal valorDesc) {
-        this.valorDesc = valorDesc;
+    public void setIdPessoa(Long idPessoa) {
+        this.idPessoa = idPessoa;
+    }
+
+    public Long getPessoa() {
+        return idPessoa;
+    }
+
+    public void setPessoa(Long idPessoa) {
+        this.idPessoa = idPessoa;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public Endereco getEnderecoCobranca() {
+        return enderecoCobranca;
+    }
+
+    public void setEnderecoCobranca(Endereco enderecoCobranca) {
+        this.enderecoCobranca = enderecoCobranca;
+    }
+
+    public Endereco getEnderecoEntrega() {
+        return enderecoEntrega;
+    }
+
+    public void setEnderecoEntrega(Endereco enderecoEntrega) {
+        this.enderecoEntrega = enderecoEntrega;
+    }
+
+    public BigDecimal getValorDesconto() {
+        return valorDesconto;
+    }
+
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
     }
 
     public BigDecimal getValorFrete() {
@@ -42,36 +82,11 @@ public class VendaCompraLojaVirtualDTO {
         this.valorFrete = valorFrete;
     }
 
-    public Endereco getCobranca() {
-        return cobranca;
+    public List<ItemVendaDTO> getItemVendaLojas() {
+        return itemVendaLojas;
     }
 
-    public void setCobranca(Endereco cobranca) {
-        this.cobranca = cobranca;
-    }
-
-    public Endereco getEntrega() {
-        return entrega;
-    }
-
-    public void setEntrega(Endereco entrega) {
-        this.entrega = entrega;
-    }
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
-
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-
-    public BigDecimal getValorTotal() {
-        return valorTotal;
+    public void setItemVendaLojas(List<ItemVendaDTO> itemVendaLojas) {
+        this.itemVendaLojas = itemVendaLojas;
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,21 +91,51 @@ public class VendaCompraLojaVirtualService {
 
         VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
         compraLojaVirtualDTO.setValorTotal(vendaCompraLojaVirtual.getValorTotal());
-        compraLojaVirtualDTO.setPessoa(vendaCompraLojaVirtual.getPessoa());
-        compraLojaVirtualDTO.setCobranca(vendaCompraLojaVirtual.getEnderecoCobranca());
-        compraLojaVirtualDTO.setEntrega(vendaCompraLojaVirtual.getEnderecoEntrega());
-        compraLojaVirtualDTO.setValorDesc(vendaCompraLojaVirtual.getValorDesconto());
+        compraLojaVirtualDTO.setPessoa(vendaCompraLojaVirtual.getPessoa().getId());
+        compraLojaVirtualDTO.setEnderecoCobranca(vendaCompraLojaVirtual.getEnderecoCobranca());
+        compraLojaVirtualDTO.setEnderecoEntrega(vendaCompraLojaVirtual.getEnderecoEntrega());
+        compraLojaVirtualDTO.setValorDesconto(vendaCompraLojaVirtual.getValorDesconto());
         compraLojaVirtualDTO.setValorFrete(vendaCompraLojaVirtual.getValorFrete());
+        modelMapper.typeMap(ItemVendaLoja.class, ItemVendaDTO.class).addMapping(item -> item.getProduto().getId(), (dest, v) -> dest.setProduto((Long) v));
+
         List<ItemVendaDTO> itemVendaDTOS = vendaCompraLojaVirtual.getItemVendaLojas().stream().map(item -> modelMapper.map(item, ItemVendaDTO.class)).collect(Collectors.toList());
-        compraLojaVirtualDTO.setItemVendaDTOS(itemVendaDTOS);
+        compraLojaVirtualDTO.setItemVendaLojas(itemVendaDTOS);
 
         return compraLojaVirtualDTO;
     }
 
 
-    public void exclusaoTotalVendaBanco(Long idVenda){
+    public void exclusaoTotalVendaBanco(Long idVenda) {
         vendaCompraRepository.exclusaoTotalVendaBanco(idVenda);
     }
 
+    public void exclusaoLogicaVendaBanco(Long idVenda) {
+        vendaCompraRepository.exclusaoLogicaVendaBanco(idVenda);
+    }
+
+    public void  restaurarExclusaoLogica(Long idVenda){
+        vendaCompraRepository.restaurarVendaBanco(idVenda);
+    }
+
+
+    public VendaCompraLojaVirtualDTO consultaVendaId(Long id) throws ExceptionLojaVirtual {
+
+        Optional<VendaCompraLojaVirtual> vendaCompraLojaVirtual = Optional.ofNullable(Optional.ofNullable(vendaCompraRepository.consultaVendaId(id)).orElseThrow(() -> new ExceptionLojaVirtual("Id da venda está invalido ou não existe")));
+        modelMapper.typeMap(VendaCompraLojaVirtual.class, VendaCompraLojaVirtualDTO.class).addMapping(vendaCompraLojaVirtual1 -> vendaCompraLojaVirtual1.getPessoa().getId(), (dest, v) -> dest.setPessoa((Long) v));
+        modelMapper.typeMap(ItemVendaLoja.class, ItemVendaDTO.class).addMapping(item -> item.getProduto().getId(), (dest, v) -> dest.setProduto((Long) v));
+
+        VendaCompraLojaVirtualDTO vendaCompraLojaVirtualDTO = modelMapper.map(vendaCompraLojaVirtual, VendaCompraLojaVirtualDTO.class);
+        return vendaCompraLojaVirtualDTO;
+    }
+
+    public List<VendaCompraLojaVirtualDTO> vendaPorProduto(Long idProduto){
+        modelMapper.typeMap(ItemVendaLoja.class, ItemVendaDTO.class).addMapping(item -> item.getProduto().getId(), (dest, v) -> dest.setProduto((Long) v));
+        modelMapper.typeMap(VendaCompraLojaVirtual.class, VendaCompraLojaVirtualDTO.class).addMapping(vendaCompraLojaVirtual1 -> vendaCompraLojaVirtual1.getPessoa().getId(), (dest, v) -> dest.setPessoa((Long) v));
+
+        List<VendaCompraLojaVirtual>vendaCompraLojaVirtuals = vendaCompraRepository.vendaPorProduto(idProduto);
+        List<VendaCompraLojaVirtualDTO> vendaCompraLojaVirtualDTOS = vendaCompraLojaVirtuals.stream().map(item->modelMapper.map(item,VendaCompraLojaVirtualDTO.class)).collect(Collectors.toList());
+
+        return vendaCompraLojaVirtualDTOS;
+    }
 
 }
