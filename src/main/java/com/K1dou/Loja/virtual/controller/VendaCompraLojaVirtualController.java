@@ -7,6 +7,7 @@ import com.K1dou.Loja.virtual.service.VendaCompraLojaVirtualService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -63,5 +64,13 @@ public class VendaCompraLojaVirtualController {
 
         return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.vendaPorProduto(idProduto), HttpStatus.OK);
     }
+
+
+    @GetMapping("/consultaVendaDinamica/{valor}/{tipoConsulta}")
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>>consultaVendaDinamica(@PathVariable String valor,@PathVariable String tipoConsulta){
+
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaDinamica(valor,tipoConsulta),HttpStatus.OK);
+    }
+
 
 }

@@ -10,6 +10,14 @@ import java.util.List;
 
 public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCompraLojaVirtual, Long> {
 
+
+
+
+
+    @Query("select i.vendaCompraLojaVirtual from ItemVendaLoja i where i.vendaCompraLojaVirtual.excluido = false and upper(trim(i.produto.nome)) like concat('%', upper(?1), '%')")
+    List<VendaCompraLojaVirtual> findVendaByNomeProduto(String nome);
+
+
     @Modifying(flushAutomatically = true)
     @Transactional
     @Query(nativeQuery = true, value = "begin;"
@@ -43,6 +51,13 @@ public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCom
 
     @Query("select i.vendaCompraLojaVirtual from ItemVendaLoja i where i.vendaCompraLojaVirtual.excluido = false and i.produto.id = ?1")
     List<VendaCompraLojaVirtual>vendaPorProduto(Long idProduto1);
+
+
+    @Query("select v from VendaCompraLojaVirtual v where v.enderecoCobranca.id = ?1")
+    List<VendaCompraLojaVirtual>vendaPorEnderecoCobranca(Long idEnderecoCobranca);
+
+    @Query("select v from VendaCompraLojaVirtual v where v.enderecoEntrega.id = ?1")
+    List<VendaCompraLojaVirtual>vendaPorEnderecoEntrega(Long idEnderecoEntrega);
 
 
 }
