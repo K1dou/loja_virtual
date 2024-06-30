@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 
 public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCompraLojaVirtual, Long> {
@@ -53,11 +54,14 @@ public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCom
     List<VendaCompraLojaVirtual>vendaPorProduto(Long idProduto1);
 
 
-    @Query("select v from VendaCompraLojaVirtual v where v.enderecoCobranca.id = ?1")
+    @Query("select v from VendaCompraLojaVirtual v where v.enderecoCobranca.id = ?1 and v.excluido = false")
     List<VendaCompraLojaVirtual>vendaPorEnderecoCobranca(Long idEnderecoCobranca);
 
-    @Query("select v from VendaCompraLojaVirtual v where v.enderecoEntrega.id = ?1")
+    @Query("select v from VendaCompraLojaVirtual v where v.enderecoEntrega.id = ?1 and v.excluido = false")
     List<VendaCompraLojaVirtual>vendaPorEnderecoEntrega(Long idEnderecoEntrega);
 
+
+    @Query("select v from VendaCompraLojaVirtual v where v.dataVenda >=?1 and v.dataVenda <=?2 and v.excluido = false")
+    List<VendaCompraLojaVirtual>consultaVendaPorData(Date data1, Date date2);
 
 }

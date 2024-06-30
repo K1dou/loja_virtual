@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -70,6 +72,12 @@ public class VendaCompraLojaVirtualController {
     public ResponseEntity<List<VendaCompraLojaVirtualDTO>>consultaVendaDinamica(@PathVariable String valor,@PathVariable String tipoConsulta){
 
         return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaDinamica(valor,tipoConsulta),HttpStatus.OK);
+    }
+
+    @GetMapping("/consultaVendaPorData/{data1}/{data2}")
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>>consultaVendaPorData(@PathVariable String data1, @PathVariable String data2) throws ParseException {
+
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaPorData(data1,data2),HttpStatus.OK);
     }
 
 
