@@ -74,11 +74,13 @@ public class VendaCompraLojaVirtualController {
         return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaDinamica(valor,tipoConsulta),HttpStatus.OK);
     }
 
-    @GetMapping("/consultaVendaPorData/{data1}/{data2}")
-    public ResponseEntity<List<VendaCompraLojaVirtualDTO>>consultaVendaPorData(@PathVariable String data1, @PathVariable String data2) throws ParseException {
 
-        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaPorData(data1,data2),HttpStatus.OK);
+    @GetMapping("/consultaVendaPorDataJPA/{data1}/{data2}")
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>>consultaVendaPorDataJPA(@PathVariable String data1, @PathVariable String data2) throws ParseException {
+
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaPorDataJPA(data1,data2),HttpStatus.OK);
     }
+
 
 
 }

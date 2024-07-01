@@ -171,8 +171,7 @@ public class VendaCompraLojaVirtualService {
         return vendaCompraLojaVirtualDTOS;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<VendaCompraLojaVirtualDTO> consultaVendaPorData(String data1, String data2) throws ParseException {
+    public List<VendaCompraLojaVirtualDTO> consultaVendaPorDataJPA(String data1, String data2) throws ParseException {
         modelMapper.typeMap(ItemVendaLoja.class, ItemVendaDTO.class).addMapping(item -> item.getProduto().getId(), (dest, v) -> dest.setProduto((Long) v));
         modelMapper.typeMap(VendaCompraLojaVirtual.class, VendaCompraLojaVirtualDTO.class).addMapping(vendaCompraLojaVirtual1 -> vendaCompraLojaVirtual1.getPessoa().getId(), (dest, v) -> dest.setPessoa((Long) v));
 
@@ -181,12 +180,8 @@ public class VendaCompraLojaVirtualService {
         Date startDate = sdf.parse(data1);
         Date endDate = sdf.parse(data2);
 
-        // Use named parameters in the query
-        String sql = "select v from VendaCompraLojaVirtual v where v.dataVenda >= :startDate and v.dataVenda <= :endDate and v.excluido = false";
-        List<VendaCompraLojaVirtual> vendas = entityManager.createQuery(sql)
-                .setParameter("startDate", startDate)
-                .setParameter("endDate", endDate)
-                .getResultList();
+
+        List<VendaCompraLojaVirtual> vendas = vendaCompraRepository.consultaVendaPorData(startDate, endDate);
 
         List<VendaCompraLojaVirtualDTO> vendasDTO = vendas.stream()
                 .map(item -> modelMapper.map(item, VendaCompraLojaVirtualDTO.class))
