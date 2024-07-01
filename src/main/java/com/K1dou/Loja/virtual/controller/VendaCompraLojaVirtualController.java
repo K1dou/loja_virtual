@@ -81,6 +81,29 @@ public class VendaCompraLojaVirtualController {
         return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaPorDataJPA(data1,data2),HttpStatus.OK);
     }
 
+    ///===========================================================================================
+
+    @GetMapping("/consultaPorCpfPessoa/{cpf}")
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorCpfPessoa(@PathVariable String cpf){
+
+
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaPorParteCpfPessoa(cpf),HttpStatus.OK);
+    }
+
+    @GetMapping("/consultaPorParteCpfPessoa/{cpf}")
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorParteCpfPessoa(@PathVariable String cpf){
+
+
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaPorParteCpfPessoa(cpf),HttpStatus.OK);
+    }
+
+
+    @GetMapping("/consultaPorPessoaId/{id}")
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorPessoaId(@PathVariable Long id){
+
+
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaPorPessoaId(id),HttpStatus.OK);
+    }
 
 
 }

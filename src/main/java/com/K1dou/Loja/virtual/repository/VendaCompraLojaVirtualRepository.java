@@ -64,4 +64,18 @@ public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCom
     @Query("select v from VendaCompraLojaVirtual v where v.dataVenda >=?1 and v.dataVenda <=?2 and v.excluido = false")
     List<VendaCompraLojaVirtual>consultaVendaPorData(Date data1, Date date2);
 
+
+    // ============================================================================================
+
+    @Query("select v from VendaCompraLojaVirtual v where v.pessoa.cpf = ?1 and v.excluido = false")
+    List<VendaCompraLojaVirtual> consultaPorCpfPessoa(String cpf);
+
+    @Query("select v from VendaCompraLojaVirtual v where v.pessoa.cpf like %?1% and v.excluido = false")
+    List<VendaCompraLojaVirtual> consultaPorParteCpfPessoa(String cpf);
+
+
+    @Query("select v from VendaCompraLojaVirtual v where v.pessoa.id =?1 and v.excluido = false")
+    List<VendaCompraLojaVirtual> consultaPorPessoaId(Long id);
+
+
 }
