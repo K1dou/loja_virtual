@@ -1,9 +1,12 @@
 package com.K1dou.Loja.virtual.controller;
 
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
+import com.K1dou.Loja.virtual.model.Dtos.NotaFiscalVendaDTO;
 import com.K1dou.Loja.virtual.model.NotaFiscalCompra;
+import com.K1dou.Loja.virtual.model.NotaFiscalVenda;
 import com.K1dou.Loja.virtual.repository.NotaFiscalCompraRepository;
 import com.K1dou.Loja.virtual.service.NotaFiscalCompraService;
+import com.K1dou.Loja.virtual.service.NotaFiscalVendaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,14 +16,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/notaFiscalCompra")
-public class NotaFiscalCompraController {
+@RequestMapping("/notaFiscal")
+public class NotaFiscalController {
 
     @Autowired
     private NotaFiscalCompraService notaFiscalCompraService;
 
     @Autowired
+    private NotaFiscalVendaService notaFiscalVendaService;
+
+    @Autowired
     private NotaFiscalCompraRepository notaFiscalCompraRepository;
+
+
 
 
     @PostMapping
@@ -82,5 +90,12 @@ public class NotaFiscalCompraController {
         return new ResponseEntity<NotaFiscalCompra>(notaFiscalCompraService.updateNotaFiscalCompra(notaFiscalCompra), HttpStatus.OK);
     }
 
+
+    @GetMapping("/consultaNotaFiscalVendaPorVenda/{idVenda}")
+    public ResponseEntity<List<NotaFiscalVendaDTO>>consultaNotaFiscalVendaPorVenda(@PathVariable Long idVenda){
+
+
+        return new ResponseEntity<List<NotaFiscalVendaDTO>>(notaFiscalVendaService.consultaNotaFiscalVendaPorVenda(idVenda),HttpStatus.OK);
+    }
 
 }

@@ -1,12 +1,17 @@
 package com.K1dou.Loja.virtual.repository;
 
 import com.K1dou.Loja.virtual.model.NotaFiscalCompra;
+import com.K1dou.Loja.virtual.model.NotaFiscalVenda;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface NotaFiscalCompraRepository extends JpaRepository<NotaFiscalCompra, Long> {
+
+
+
+
 
 
     @Query("select n from NotaFiscalCompra n where upper(trim(n.descricaoObs)) like upper(trim(concat('%',?1,'%')))")

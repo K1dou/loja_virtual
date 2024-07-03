@@ -13,23 +13,23 @@ public class FormaPagamentoDTO {
     private String descricao;
 
     @NotNull(message = "Descrição necessária")
-    private PessoaJuridica empresa;
+    private Long empresaId;
 
     public FormaPagamentoDTO() {
     }
 
-    public FormaPagamentoDTO(Long id, String descricao, PessoaJuridica empresa) {
+    public FormaPagamentoDTO(Long id, String descricao, Long empresaId) {
         this.id = id;
         this.descricao = descricao;
-        this.empresa = empresa;
+        this.empresaId = empresaId;
     }
 
-    public PessoaJuridica getEmpresa() {
-        return empresa;
+    public Long getId() {
+        return id;
     }
 
-    public void setEmpresa(PessoaJuridica empresa) {
-        this.empresa = empresa;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDescricao() {
@@ -40,11 +40,11 @@ public class FormaPagamentoDTO {
         this.descricao = descricao;
     }
 
-    public Long getId() {
-        return id;
+    public Long getEmpresaId() {
+        return empresaId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEmpresaId(Long empresaId) {
+        this.empresaId = empresaId;
     }
 }

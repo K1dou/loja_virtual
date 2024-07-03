@@ -69,8 +69,6 @@ public class VendaCompraLojaVirtual {
 
     private Boolean excluido = Boolean.FALSE;
 
-
-
     
     public Boolean getExcluido() {
         return excluido;

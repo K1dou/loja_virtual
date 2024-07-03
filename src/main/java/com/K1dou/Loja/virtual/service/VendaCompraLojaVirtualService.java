@@ -189,8 +189,6 @@ public class VendaCompraLojaVirtualService {
         return vendasDTO;
     }
 
-    //=========================================================================
-
     public List<VendaCompraLojaVirtualDTO> consultaPorCpfPessoa(String cpf) {
         modelMapper.typeMap(VendaCompraLojaVirtual.class, VendaCompraLojaVirtualDTO.class).addMapping(item -> item.getPessoa().getId(), (dest, v) -> dest.setPessoa((Long) v));
         modelMapper.typeMap(ItemVendaLoja.class, ItemVendaDTO.class).addMapping(item -> item.getProduto().getId(), (dest, v) -> dest.setProduto((Long) v));
@@ -211,8 +209,7 @@ public class VendaCompraLojaVirtualService {
         return vendaCompraLojaVirtualDTOS;
     }
 
-
-    public List<VendaCompraLojaVirtualDTO> consultaPorPessoaId(Long id){
+    public List<VendaCompraLojaVirtualDTO> consultaPorPessoaId(Long id) {
 
         modelMapper.typeMap(VendaCompraLojaVirtual.class, VendaCompraLojaVirtualDTO.class).addMapping(item -> item.getPessoa().getId(), (dest, v) -> dest.setPessoa((Long) v));
         modelMapper.typeMap(ItemVendaLoja.class, ItemVendaDTO.class).addMapping(item -> item.getProduto().getId(), (dest, v) -> dest.setProduto((Long) v));
