@@ -3,6 +3,7 @@ package com.K1dou.Loja.virtual.service;
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.ContaPagar;
 import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoRelatorioProdCompraNotaFiscalDTO;
+import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoRelatorioProdutosEstoqueAlertaDTO;
 import com.K1dou.Loja.virtual.model.NotaFiscalCompra;
 import com.K1dou.Loja.virtual.model.PessoaJuridica;
 import com.K1dou.Loja.virtual.repository.ContaPagarRepository;
@@ -53,11 +54,11 @@ public class NotaFiscalCompraService {
         sql += " cfc.data_compra >='" + dto.getDataInicial() + "' and ";
         sql += " cfc.data_compra <= '" + dto.getDataFinal() + "' ";
 
-        if (dto.getCodigoNota()!=null) {
+        if (dto.getCodigoNota() != null) {
             sql += " and cfc.id = " + dto.getCodigoNota() + " ";
-        } else if (dto.getCodigoProduto()!=null) {
+        } else if (dto.getCodigoProduto() != null) {
             sql += " and p.id = " + dto.getCodigoProduto() + " ";
-        } else if (dto.getNomeProduto()!=null) {
+        } else if (dto.getNomeProduto() != null) {
             sql += " and upper(p.nome) like upper('%" + dto.getNomeProduto() + "%')";
         } else {
             sql += " and upper(pj.nome) like upper('%" + dto.getNomeFornecedor() + "'%)";
@@ -68,6 +69,44 @@ public class NotaFiscalCompraService {
 
         return objetos;
     }
+
+
+    public List<ObjetoRequisicaoRelatorioProdutosEstoqueAlertaDTO> gerarRelatorioAlertaEstoque(ObjetoRequisicaoRelatorioProdutosEstoqueAlertaDTO dto) {
+
+        List<ObjetoRequisicaoRelatorioProdutosEstoqueAlertaDTO> objetos = new ArrayList<>();
+
+        String sql = "select p.id as codigoProduto, p.nome as nomeProduto, "
+                + " p.valor_venda as valorVendaProduto, ntp.quantidade as quantidadeComprada, "
+                + " pj.id as codigoFornecedor, pj.nome as nomeFornecedor,cfc.data_compra as dataCompra,"
+                + "p.qtd_estoque as qtdEstoque,p.qtde_alerta_estoque as qtdAlertaEstoque "
+                + " from nota_fiscal_compra as cfc "
+                + " inner join nota_item_produto as ntp on  cfc.id = nota_fiscal_compra_id "
+                + " inner join produto as p on p.id = ntp.produto_id "
+                + " inner join pessoa_juridica as pj on pj.id = cfc.pessoa_id where ";
+
+        sql += " cfc.data_compra >='" + dto.getDataInicial() + "' and ";
+        sql += " cfc.data_compra <= '" + dto.getDataFinal() + "' ";
+        sql += "and p.qtd_estoque <= p.qtde_alerta_estoque and p.alerta_qtd_estoque = true";
+
+        if (dto.getCodigoNota() != null) {
+            sql += " and cfc.id = " + dto.getCodigoNota() + " ";
+        }
+        if (dto.getCodigoProduto() != null) {
+            sql += " and p.id = " + dto.getCodigoProduto() + " ";
+        }
+        if(dto.getNomeProduto() != null) {
+            sql += " and upper(p.nome) like upper('%" + dto.getNomeProduto() + "%')";
+        }
+        if (dto.getNomeFornecedor()!= null){
+            sql += " and upper(pj.nome) like upper('%" + dto.getNomeFornecedor() + "'%)";
+        }
+
+        objetos = jdbcTemplate.query(sql, new BeanPropertyRowMapper(ObjetoRequisicaoRelatorioProdutosEstoqueAlertaDTO.class));
+
+
+        return objetos;
+    }
+
 
     public NotaFiscalCompra cadastrarNotaFiscal(NotaFiscalCompra dto) throws ExceptionLojaVirtual {
 

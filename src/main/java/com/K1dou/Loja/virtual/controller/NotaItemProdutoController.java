@@ -51,9 +51,6 @@ public class NotaItemProdutoController {
             }
         }
 
-
-
-
         return new ResponseEntity<NotaItemProdutoDTO>(notaItemProdutoService.cadastrarNotaItemProduto(dto), HttpStatus.OK);
     }
 
