@@ -81,7 +81,6 @@ public class VendaCompraLojaVirtualController {
         return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaPorDataJPA(data1,data2),HttpStatus.OK);
     }
 
-    ///===========================================================================================
 
     @GetMapping("/consultaPorCpfPessoa/{cpf}")
     public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorCpfPessoa(@PathVariable String cpf){

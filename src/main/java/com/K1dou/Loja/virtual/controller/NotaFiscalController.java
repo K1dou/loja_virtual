@@ -2,8 +2,8 @@ package com.K1dou.Loja.virtual.controller;
 
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.Dtos.NotaFiscalVendaDTO;
+import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoRelatorioProdCompraNotaFiscalDTO;
 import com.K1dou.Loja.virtual.model.NotaFiscalCompra;
-import com.K1dou.Loja.virtual.model.NotaFiscalVenda;
 import com.K1dou.Loja.virtual.repository.NotaFiscalCompraRepository;
 import com.K1dou.Loja.virtual.service.NotaFiscalCompraService;
 import com.K1dou.Loja.virtual.service.NotaFiscalVendaService;
@@ -21,15 +21,18 @@ public class NotaFiscalController {
 
     @Autowired
     private NotaFiscalCompraService notaFiscalCompraService;
-
     @Autowired
     private NotaFiscalVendaService notaFiscalVendaService;
-
     @Autowired
     private NotaFiscalCompraRepository notaFiscalCompraRepository;
 
 
+    @PostMapping("/relatorioProdCompraNotaFiscal")
+    public ResponseEntity<List<ObjetoRequisicaoRelatorioProdCompraNotaFiscalDTO>> relatorioProdCompraNotaFiscal(@RequestBody @Valid ObjetoRequisicaoRelatorioProdCompraNotaFiscalDTO obj){
 
+
+        return new ResponseEntity<List<ObjetoRequisicaoRelatorioProdCompraNotaFiscalDTO>>(notaFiscalCompraService.relatorioProdCompraNotaFiscal(obj),HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<NotaFiscalCompra> cadastrarNotaFiscalCompra(@RequestBody @Valid NotaFiscalCompra dto) throws ExceptionLojaVirtual {
