@@ -2,6 +2,8 @@ package com.K1dou.Loja.virtual.controller;
 
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.Dtos.VendaCompraLojaVirtualDTO;
+import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.ConsultaFreteDTO;
+import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.EmpresaTransporteDTO;
 import com.K1dou.Loja.virtual.model.VendaCompraLojaVirtual;
 import com.K1dou.Loja.virtual.service.VendaCompraLojaVirtualService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Date;
@@ -23,6 +26,14 @@ public class VendaCompraLojaVirtualController {
 
     @Autowired
     private VendaCompraLojaVirtualService vendaCompraService;
+
+
+    @PostMapping("/consultaFrete")
+    public ResponseEntity<List<EmpresaTransporteDTO>>consultaFrete(@RequestBody ConsultaFreteDTO dto) throws IOException {
+
+
+        return new ResponseEntity<List<EmpresaTransporteDTO>>(vendaCompraService.consultaFrete(dto),HttpStatus.OK);
+    }
 
     @PostMapping("/salvaVendaCompra")
     public ResponseEntity<VendaCompraLojaVirtualDTO> salvaVendaCompra(@RequestBody VendaCompraLojaVirtual dto) throws MessagingException, UnsupportedEncodingException, ExceptionLojaVirtual {

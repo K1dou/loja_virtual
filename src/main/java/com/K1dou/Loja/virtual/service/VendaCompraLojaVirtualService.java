@@ -1,22 +1,30 @@
 package com.K1dou.Loja.virtual.service;
 
 import com.K1dou.Loja.virtual.controller.PessoaController;
+import com.K1dou.Loja.virtual.enums.ApiTokenIntegracao;
 import com.K1dou.Loja.virtual.enums.StatusContaReceber;
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.*;
 import com.K1dou.Loja.virtual.model.ContaReceber;
 import com.K1dou.Loja.virtual.model.Dtos.ItemVendaDTO;
 import com.K1dou.Loja.virtual.model.Dtos.VendaCompraLojaVirtualDTO;
+import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.ConsultaFreteDTO;
+import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.EmpresaTransporteDTO;
 import com.K1dou.Loja.virtual.repository.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import okhttp3.*;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -249,5 +257,69 @@ public class VendaCompraLojaVirtualService {
 
         return vendaCompraLojaVirtualDTOS;
     }
+
+    public List<EmpresaTransporteDTO>consultaFrete(ConsultaFreteDTO dto) throws IOException {
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        //transforma o dto em uma String do json
+        String json = objectMapper.writeValueAsString(dto);
+
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(ApiTokenIntegracao.URL_MELHOR_ENVIO_SAND_BOX +"api/v2/me/shipment/calculate")
+                .post(body)
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer " +ApiTokenIntegracao.TOKEN_MELHOR_ENVIO_SAND_BOX)
+                .addHeader("User-Agent", "hique1276@gmail.com")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        //criaa um jsonNode, com o json em string com a resposta
+        JsonNode jsonNode = new ObjectMapper().readTree(response.body().string());
+
+        //Um iterador é criado para percorrer os nós filhos do JsonNode principal.
+        Iterator<JsonNode> iterator = jsonNode.iterator();
+
+        List<EmpresaTransporteDTO> empresaTransporteDTOs = new ArrayList<EmpresaTransporteDTO>();
+
+        //Um loop while é usado para iterar através de todos os nós filhos no
+        // jsonNode. O método iterator.hasNext() verifica se há mais nós para processar,
+        // e iterator.next() retorna o próximo nó.
+        while(iterator.hasNext()) {
+            JsonNode node = iterator.next();
+
+            EmpresaTransporteDTO empresaTransporteDTO = new EmpresaTransporteDTO();
+
+            if (node.get("id") != null) {
+                empresaTransporteDTO.setId(node.get("id").asText());
+            }
+
+            if (node.get("name") != null) {
+                empresaTransporteDTO.setNome(node.get("name").asText());
+            }
+
+            if (node.get("price") != null) {
+                empresaTransporteDTO.setValor(node.get("price").asText());
+            }
+
+            if (node.get("company") != null) {
+                empresaTransporteDTO.setEmpresa(node.get("company").get("name").asText());
+                empresaTransporteDTO.setPicture(node.get("company").get("picture").asText());
+            }
+
+            if (empresaTransporteDTO.dadosOK()) {
+                empresaTransporteDTOs.add(empresaTransporteDTO);
+            }
+        }
+      return empresaTransporteDTOs;
+
+    }
+
+
+
 
 }

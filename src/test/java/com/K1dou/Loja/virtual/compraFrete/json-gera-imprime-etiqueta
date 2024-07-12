@@ -1,0 +1,19 @@
+//*gera etiqueta
+{
+    "orders": [
+            "9c81274c-9d16-4e63-b50a-fff7a9651318"
+    ]
+}
+
+//retorna*
+{"9c81274c-9d16-4e63-b50a-fff7a9651318":{"status":true,"message":"Envio gerado com sucesso"}}
+
+
+
+//Impressao das etiquetas
+{"mode":"","orders":["9c81274c-9d16-4e63-b50a-fff7a9651318"]}
+
+//Resultado
+{"url":"https:\\sandbox.melhorenvio.com.br\imprimir\WOudbz5JB2ZF"}
+
+

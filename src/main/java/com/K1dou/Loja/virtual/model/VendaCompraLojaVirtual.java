@@ -1,7 +1,10 @@
 package com.K1dou.Loja.virtual.model;
 
 
+import com.K1dou.Loja.virtual.enums.StatusVendaLojaVirtual;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -69,7 +72,21 @@ public class VendaCompraLojaVirtual {
 
     private Boolean excluido = Boolean.FALSE;
 
-    
+    @NotNull(message = "Status da venda ou compra deve ser informado")
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StatusVendaLojaVirtual statusVendaLojaVirtual;
+
+
+
+    public StatusVendaLojaVirtual getStatusVendaLojaVirtual() {
+        return statusVendaLojaVirtual;
+    }
+
+    public void setStatusVendaLojaVirtual(StatusVendaLojaVirtual statusVendaLojaVirtual) {
+        this.statusVendaLojaVirtual = statusVendaLojaVirtual;
+    }
+
     public Boolean getExcluido() {
         return excluido;
     }

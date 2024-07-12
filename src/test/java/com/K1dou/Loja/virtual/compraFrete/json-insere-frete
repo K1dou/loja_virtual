@@ -1,0 +1,157 @@
+{
+    "service": 3,
+    "agency": 49,
+    "from": {
+        "name": "ome do remetente",
+        "phone": "53984470102",
+        "email": "cotato@melhorevio.com.br",
+        "document": "16571478358",
+        "company_document": "89794131000100",
+        "state_register": "123456",
+        "address": "Endereço do remetente",
+        "complement": "Complemento",
+        "number": "1",
+        "district": "Bairro",
+        "city": "São Paulo",
+        "country_id": "BR",
+        "postal_code": "01002001",
+        "note": "observação"
+    },
+    "to": {
+        "name": "ome do destinatário",
+        "phone": "53984470102",
+        "email": "cotato@melhorevio.com.br",
+        "document": "25404918047",
+        "company_document": "07595604000177",
+        "state_register": "123456",
+        "address": "Endereço do destinatário",
+        "complement": "Complemento",
+        "number": "2",
+        "district": "Bairro",
+        "city": "Porto Alegre",
+        "state_abbr": "RS",
+        "country_id": "BR",
+        "postal_code": "90570020",
+        "note": "observação"
+    },
+    "products": [
+        {
+            "name": "Papel adesivo para etiquetas 1",
+            "quantity": 3,
+            "unitary_value": 100
+        },
+        {
+            "name": "Papel adesivo para etiquetas 2",
+            "quantity": 1,
+            "unitary_value": 100
+        }
+    ],
+    "volumes": [
+        {
+            "height": 15,
+            "width": 20,
+            "length": 10,
+            "weight": 3.5
+        }
+    ],
+    "options": {
+        "insurance_value": 10,
+        "receipt": false,
+        "own_hand": false,
+        "reverse": false,
+        "non_commercial": false,
+        "invoice": {
+            "key": "31190307586261000184550010000092481404848162"
+        },
+        "platform": "ome da Plataforma",
+        "tags": [
+            {
+                "tag": "Identificação do pedido a plataforma, exemplo: 1000007",
+                "url": "Lik direto para o pedido a plataforma, se possível, caso contrário pode ser passado o valor ull"
+            }
+        ]
+    }
+
+                           /* JSON RETORNO*/
+
+{
+    "id": "9c81274c-9d16-4e63-b50a-fff7a9651318",
+    "protocol": "ORD-202407210687",
+    "service_id": 3,
+    "agency_id": 49,
+    "contract": null,
+    "service_code": null,
+    "quote": 33.73,
+    "price": 33.73,
+    "coupon": null,
+    "discount": 8.35,
+    "delivery_min": 5,
+    "delivery_max": 6,
+    "status": "pending",
+    "reminder": null,
+    "insurance_value": 10,
+    "weight": null,
+    "width": null,
+    "height": null,
+    "length": null,
+    "diameter": null,
+    "format": "box",
+    "billed_weight": 3.5,
+    "receipt": false,
+    "own_hand": false,
+    "collect": false,
+    "collect_scheduled_at": null,
+    "reverse": 0,
+    "non_commercial": false,
+    "authorization_code": null,
+    "tracking": null,
+    "self_tracking": null,
+    "delivery_receipt": null,
+    "additional_info": null,
+    "cte_key": null,
+    "paid_at": null,
+    "generated_at": null,
+    "posted_at": null,
+    "delivered_at": null,
+    "canceled_at": null,
+    "suspended_at": null,
+    "expired_at": null,
+    "created_at": "2024-07-12 11:54:00",
+    "updated_at": "2024-07-12 11:54:00",
+    "parse_pi_at": null,
+    "received_at": null,
+    "products": [
+        {
+            "name": "Papel adesivo para etiquetas 1",
+            "quantity": 3,
+            "unitary_value": 100,
+            "weight": null
+        },
+        {
+            "name": "Papel adesivo para etiquetas 2",
+            "quantity": 1,
+            "unitary_value": 100,
+            "weight": null
+        }
+    ],
+    "volumes": [
+        {
+            "id": 216159,
+            "height": "10.00",
+            "width": "15.00",
+            "length": "20.00",
+            "diameter": "0.00",
+            "weight": "3.50",
+            "format": "box",
+            "created_at": "2024-07-12 11:54:00",
+            "updated_at": "2024-07-12 11:54:00"
+        }
+    ],
+    "tags": [
+        {
+            "tag": "Identifica\u00e7\u00e3o do pedido a plataforma, exemplo: 1000007",
+            "url": "Lik direto para o pedido a plataforma, se poss\u00edvel, caso contr\u00e1rio pode ser passado o valor ull"
+        }
+    ]
+}
+}

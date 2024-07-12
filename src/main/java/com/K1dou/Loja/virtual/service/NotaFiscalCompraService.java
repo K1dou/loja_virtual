@@ -4,6 +4,7 @@ import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.ContaPagar;
 import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoRelatorioProdCompraNotaFiscalDTO;
 import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoRelatorioProdutosEstoqueAlertaDTO;
+import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoRelatorioVendasCanceladasDTO;
 import com.K1dou.Loja.virtual.model.NotaFiscalCompra;
 import com.K1dou.Loja.virtual.model.PessoaJuridica;
 import com.K1dou.Loja.virtual.repository.ContaPagarRepository;
@@ -94,10 +95,10 @@ public class NotaFiscalCompraService {
         if (dto.getCodigoProduto() != null) {
             sql += " and p.id = " + dto.getCodigoProduto() + " ";
         }
-        if(dto.getNomeProduto() != null) {
+        if (dto.getNomeProduto() != null) {
             sql += " and upper(p.nome) like upper('%" + dto.getNomeProduto() + "%')";
         }
-        if (dto.getNomeFornecedor()!= null){
+        if (dto.getNomeFornecedor() != null) {
             sql += " and upper(pj.nome) like upper('%" + dto.getNomeFornecedor() + "'%)";
         }
 
@@ -105,6 +106,44 @@ public class NotaFiscalCompraService {
 
 
         return objetos;
+    }
+
+    public List<ObjetoRequisicaoRelatorioVendasCanceladasDTO> relatorioVendasCanceladas(ObjetoRequisicaoRelatorioVendasCanceladasDTO dto) {
+        List<ObjetoRequisicaoRelatorioVendasCanceladasDTO> objetos = new ArrayList<>();
+
+        String sql = "select p.id as codigoProduto, p.nome as nomeProduto, "
+                + " p.valor_venda as valorVendaProduto, "
+                + " pf.id as codigoCliente, pf.nome as nomeCliente,cfc.data_venda as data_venda, "
+                + "p.qtd_estoque as qtdEstoque, "
+                + "pf.email as emailCliente, "
+                + "pf.telefone as foneCliente, "
+                + "cfc.id as codigoVenda "
+                + " from vd_cp_loja_virt as cfc "
+                + " inner join item_venda_loja as ntp on ntp.venda_compra_loja_virtual_id = cfc.id "
+                + " inner join produto as p on p.id = ntp.produto_id "
+                + " inner join pessoa_fisica as pf on pf.id = cfc.pessoa_id where ";
+
+        sql += " cfc.data_venda >='" + dto.getDataInicial() + "' and ";
+        sql += " cfc.data_venda <= '" + dto.getDataFinal() + "' ";
+        sql += "and cfc.status_venda_loja_virtual = 'CANCELADA'";
+
+        if (dto.getCodigoVenda() != null) {
+            sql += " and cfc.id = " + dto.getCodigoVenda() + " ";
+        }
+        if (dto.getCodigoProduto() != null) {
+            sql += " and p.id = " + dto.getCodigoProduto() + " ";
+        }
+        if (dto.getNomeProduto() != null) {
+            sql += " and upper(p.nome) like upper('%" + dto.getNomeProduto() + "%')";
+        }
+        if (dto.getEmailCliente() != null) {
+            sql += " and upper(pj.nome) like upper('%" + dto.getEmailCliente() + "'%)";
+        }
+        objetos = jdbcTemplate.query(sql, new BeanPropertyRowMapper(ObjetoRequisicaoRelatorioVendasCanceladasDTO.class));
+
+
+        return objetos;
+
     }
 
 

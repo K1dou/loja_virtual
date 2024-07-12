@@ -4,6 +4,7 @@ import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.Dtos.NotaFiscalVendaDTO;
 import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoRelatorioProdCompraNotaFiscalDTO;
 import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoRelatorioProdutosEstoqueAlertaDTO;
+import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoRelatorioVendasCanceladasDTO;
 import com.K1dou.Loja.virtual.model.NotaFiscalCompra;
 import com.K1dou.Loja.virtual.repository.NotaFiscalCompraRepository;
 import com.K1dou.Loja.virtual.service.NotaFiscalCompraService;
@@ -40,8 +41,11 @@ public class NotaFiscalController {
         return new ResponseEntity<List<ObjetoRequisicaoRelatorioProdutosEstoqueAlertaDTO>>(notaFiscalCompraService.gerarRelatorioAlertaEstoque(obj),HttpStatus.OK);
     }
 
+    @PostMapping("/relatorioVendasCanceladas")
+    public ResponseEntity<List<ObjetoRequisicaoRelatorioVendasCanceladasDTO>> relatorioVendasCanceladas(@RequestBody @Valid ObjetoRequisicaoRelatorioVendasCanceladasDTO obj){
 
-
+        return new ResponseEntity<List<ObjetoRequisicaoRelatorioVendasCanceladasDTO>>(notaFiscalCompraService.relatorioVendasCanceladas(obj),HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<NotaFiscalCompra> cadastrarNotaFiscalCompra(@RequestBody @Valid NotaFiscalCompra dto) throws ExceptionLojaVirtual {

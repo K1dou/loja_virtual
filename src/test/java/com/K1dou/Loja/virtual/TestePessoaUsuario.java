@@ -125,7 +125,7 @@ public class TestePessoaUsuario extends TestCase {
         pessoaFisica.getEnderecos().add(endereco2);
         pessoaFisica.getEnderecos().add(endereco1);
 
-        pessoaFisica = pessoaController.cadastroPessoa(pessoaFisica).getBody();
+        pessoaFisica = pessoaController.cadastroPessoaFisica(pessoaFisica).getBody();
 
         assertEquals(true, pessoaFisica.getId() > 0);
 
