@@ -9,6 +9,23 @@ public class TesteApiMelhorEnvio {
 
     public static void main(String[] args) throws IOException {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //*Insere as etiquetas de frete
         //OkHttpClient client = new OkHttpClient();
 //

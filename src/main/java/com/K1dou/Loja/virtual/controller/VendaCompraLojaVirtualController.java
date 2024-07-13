@@ -29,20 +29,26 @@ public class VendaCompraLojaVirtualController {
     private VendaCompraLojaVirtualService vendaCompraService;
 
 
+    @GetMapping("/cancelaEtiqueta/{idEtiqueta}/{descricao}")
+    public ResponseEntity<String> cancelaEtiqueta(@PathVariable String idEtiqueta, @PathVariable String descricao) throws IOException {
+
+
+        return new ResponseEntity<String>(vendaCompraService.cancelaEtiqueta(idEtiqueta,descricao),HttpStatus.OK);
+    }
 
 
     @PostMapping("/imprimeCompraEtiquetaFrete")
-    public ResponseEntity<String>imprimeCompraEtiquetaFrete(@RequestBody IdVendaRequest idVendaRequest) throws IOException, ExceptionLojaVirtual {
+    public ResponseEntity<String> imprimeCompraEtiquetaFrete(@RequestBody IdVendaRequest idVendaRequest) throws IOException, ExceptionLojaVirtual {
 
 
-        return new ResponseEntity<String>(vendaCompraService.imprimeCompraEtiquetaFrete(idVendaRequest),HttpStatus.OK);
+        return new ResponseEntity<String>(vendaCompraService.imprimeCompraEtiquetaFrete(idVendaRequest), HttpStatus.OK);
     }
 
     @PostMapping("/consultaFrete")
-    public ResponseEntity<List<EmpresaTransporteDTO>>consultaFrete(@RequestBody ConsultaFreteDTO dto) throws IOException {
+    public ResponseEntity<List<EmpresaTransporteDTO>> consultaFrete(@RequestBody ConsultaFreteDTO dto) throws IOException {
 
 
-        return new ResponseEntity<List<EmpresaTransporteDTO>>(vendaCompraService.consultaFrete(dto),HttpStatus.OK);
+        return new ResponseEntity<List<EmpresaTransporteDTO>>(vendaCompraService.consultaFrete(dto), HttpStatus.OK);
     }
 
     @PostMapping("/salvaVendaCompra")
@@ -90,39 +96,39 @@ public class VendaCompraLojaVirtualController {
 
 
     @GetMapping("/consultaVendaDinamica/{valor}/{tipoConsulta}")
-    public ResponseEntity<List<VendaCompraLojaVirtualDTO>>consultaVendaDinamica(@PathVariable String valor,@PathVariable String tipoConsulta){
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaVendaDinamica(@PathVariable String valor, @PathVariable String tipoConsulta) {
 
-        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaDinamica(valor,tipoConsulta),HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaDinamica(valor, tipoConsulta), HttpStatus.OK);
     }
 
 
     @GetMapping("/consultaVendaPorDataJPA/{data1}/{data2}")
-    public ResponseEntity<List<VendaCompraLojaVirtualDTO>>consultaVendaPorDataJPA(@PathVariable String data1, @PathVariable String data2) throws ParseException {
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaVendaPorDataJPA(@PathVariable String data1, @PathVariable String data2) throws ParseException {
 
-        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaPorDataJPA(data1,data2),HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaVendaPorDataJPA(data1, data2), HttpStatus.OK);
     }
 
 
     @GetMapping("/consultaPorCpfPessoa/{cpf}")
-    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorCpfPessoa(@PathVariable String cpf){
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorCpfPessoa(@PathVariable String cpf) {
 
 
-        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaPorParteCpfPessoa(cpf),HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaPorParteCpfPessoa(cpf), HttpStatus.OK);
     }
 
     @GetMapping("/consultaPorParteCpfPessoa/{cpf}")
-    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorParteCpfPessoa(@PathVariable String cpf){
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorParteCpfPessoa(@PathVariable String cpf) {
 
 
-        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaPorParteCpfPessoa(cpf),HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaPorParteCpfPessoa(cpf), HttpStatus.OK);
     }
 
 
     @GetMapping("/consultaPorPessoaId/{id}")
-    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorPessoaId(@PathVariable Long id){
+    public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaPorPessoaId(@PathVariable Long id) {
 
 
-        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaPorPessoaId(id),HttpStatus.OK);
+        return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(vendaCompraService.consultaPorPessoaId(id), HttpStatus.OK);
     }
 
 
