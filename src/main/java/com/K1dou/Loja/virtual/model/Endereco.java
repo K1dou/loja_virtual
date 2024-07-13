@@ -21,6 +21,9 @@ public class Endereco {
     @Column(nullable = false)
     private String numero;
 
+    //
+    private String estado;
+
     private String complemento;
     @Column(nullable = false)
     private String bairro;
@@ -44,6 +47,15 @@ public class Endereco {
     @JoinColumn(name = "empresa_id", nullable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
     private Pessoa empresa;
+
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
     public Pessoa getEmpresa() {
         return empresa;

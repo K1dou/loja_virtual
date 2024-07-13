@@ -65,25 +65,21 @@ public class TesteApiMelhorEnvio {
 
 
         //impressao etiqueta
-        OkHttpClient client = new OkHttpClient();
-
-        MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\"mode\":\"\",\"orders\":[\"9c81274c-9d16-4e63-b50a-fff7a9651318\"]}");
-        Request request = new Request.Builder()
-                .url(ApiTokenIntegracao.URL_MELHOR_ENVIO_SAND_BOX+"api/v2/me/shipment/print")
-                .post(body)
-                .addHeader("Accept", "application/json")
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Authorization", "Bearer "+ApiTokenIntegracao.TOKEN_MELHOR_ENVIO_SAND_BOX)
-                .addHeader("User-Agent", "hique1276@gmail.com")
-                .build();
-
-        Response response = client.newCall(request).execute();
-        System.out.println(response.body().string());
-
-
-
-
+//        OkHttpClient client = new OkHttpClient();
+//
+//        MediaType mediaType = MediaType.parse("application/json");
+//        RequestBody body = RequestBody.create(mediaType, "{\"mode\":\"\",\"orders\":[\"9c81274c-9d16-4e63-b50a-fff7a9651318\"]}");
+//        Request request = new Request.Builder()
+//                .url(ApiTokenIntegracao.URL_MELHOR_ENVIO_SAND_BOX+"api/v2/me/shipment/print")
+//                .post(body)
+//                .addHeader("Accept", "application/json")
+//                .addHeader("Content-Type", "application/json")
+//                .addHeader("Authorization", "Bearer "+ApiTokenIntegracao.TOKEN_MELHOR_ENVIO_SAND_BOX)
+//                .addHeader("User-Agent", "hique1276@gmail.com")
+//                .build();
+//
+//        Response response = client.newCall(request).execute();
+//        System.out.println(response.body().string());
 
 
     }

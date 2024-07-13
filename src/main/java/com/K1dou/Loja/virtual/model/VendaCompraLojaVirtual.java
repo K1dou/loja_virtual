@@ -77,7 +77,36 @@ public class VendaCompraLojaVirtual {
     @Enumerated(EnumType.STRING)
     private StatusVendaLojaVirtual statusVendaLojaVirtual;
 
+    private String codigoEtiqueta;
 
+    private String urlImprimeEtiqueta;
+
+    //Frete que foi escolhido pelo cliente momento da compra
+    private String servicoTransportadora;
+
+    public String getServicoTransportadora() {
+        return servicoTransportadora;
+    }
+
+    public void setServicoTransportadora(String servicoTransportadora) {
+        this.servicoTransportadora = servicoTransportadora;
+    }
+
+    public String getCodigoEtiqueta() {
+        return codigoEtiqueta;
+    }
+
+    public void setCodigoEtiqueta(String codigoEtiqueta) {
+        this.codigoEtiqueta = codigoEtiqueta;
+    }
+
+    public String getUrlImprimeEtiqueta() {
+        return urlImprimeEtiqueta;
+    }
+
+    public void setUrlImprimeEtiqueta(String urlImprimeEtiqueta) {
+        this.urlImprimeEtiqueta = urlImprimeEtiqueta;
+    }
 
     public StatusVendaLojaVirtual getStatusVendaLojaVirtual() {
         return statusVendaLojaVirtual;

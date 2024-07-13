@@ -4,6 +4,7 @@ import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.Dtos.VendaCompraLojaVirtualDTO;
 import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.ConsultaFreteDTO;
 import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.EmpresaTransporteDTO;
+import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.IdVendaRequest;
 import com.K1dou.Loja.virtual.model.VendaCompraLojaVirtual;
 import com.K1dou.Loja.virtual.service.VendaCompraLojaVirtualService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,15 @@ public class VendaCompraLojaVirtualController {
     @Autowired
     private VendaCompraLojaVirtualService vendaCompraService;
 
+
+
+
+    @PostMapping("/imprimeCompraEtiquetaFrete")
+    public ResponseEntity<String>imprimeCompraEtiquetaFrete(@RequestBody IdVendaRequest idVendaRequest) throws IOException, ExceptionLojaVirtual {
+
+
+        return new ResponseEntity<String>(vendaCompraService.imprimeCompraEtiquetaFrete(idVendaRequest),HttpStatus.OK);
+    }
 
     @PostMapping("/consultaFrete")
     public ResponseEntity<List<EmpresaTransporteDTO>>consultaFrete(@RequestBody ConsultaFreteDTO dto) throws IOException {
