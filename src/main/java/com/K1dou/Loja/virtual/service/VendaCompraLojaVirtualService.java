@@ -94,15 +94,6 @@ public class VendaCompraLojaVirtualService {
         /*Salva primeiro a venda e todo os dados*/
         vendaCompraLojaVirtual = vendaCompraRepository.saveAndFlush(vendaCompraLojaVirtual);
 
-        StatusRastreio statusRastreio = new StatusRastreio();
-        statusRastreio.setCentroDistribuicao("Loja local");
-        statusRastreio.setCidade("Local");
-        statusRastreio.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
-        statusRastreio.setStatus("Inicio");
-        statusRastreio.setEstado("Local");
-        statusRastreio.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
-        statusRastreioRepository.save(statusRastreio);
-
         /*Associa a venda gravada no banco com a nota fiscal*/
         vendaCompraLojaVirtual.getNotaFiscalVenda().setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
 
@@ -421,7 +412,6 @@ public class VendaCompraLojaVirtualService {
         Response response = client.newCall(request).execute();
 
         JsonNode jsonNode = new ObjectMapper().readTree(response.body().string());
-        Iterator<JsonNode> iterator = jsonNode.iterator();
 
         String idEtiqueta = null;
 
@@ -473,7 +463,7 @@ public class VendaCompraLojaVirtualService {
 
         Response responseGera = clientGera.newCall(requestGera).execute();
 
-        //caiu aq
+
         if (!responseGera.isSuccessful()) {
             throw new ExceptionLojaVirtual("Não foi possível gerar a etiqueta");
         }
@@ -501,8 +491,49 @@ public class VendaCompraLojaVirtualService {
 
         urlEtiqueta = urlEtiqueta.replace("\\", "");
 
-
         vendaCompraRepository.updateUrlEtiqueta(urlEtiqueta, idVenda);
+
+
+        OkHttpClient clientRastreio = new OkHttpClient();
+
+        MediaType mediaTypeRastreio = MediaType.parse("application/json");
+        RequestBody bodyRastreio = RequestBody.create(mediaTypeRastreio, "{\"orders\":[\"" + idEtiqueta + "\"]}");
+        Request requestRastreio = new Request.Builder()
+                .url(ApiTokenIntegracao.URL_MELHOR_ENVIO_SAND_BOX + "api/v2/me/shipment/tracking")
+                .post(bodyRastreio)
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-type", "application/json")
+                .addHeader("Authorization", "Bearer " + ApiTokenIntegracao.TOKEN_MELHOR_ENVIO_SAND_BOX)
+                .addHeader("User-Agent", "hique1276@gmail.com")
+                .build();
+
+        Response responseRastreio = client.newCall(requestRastreio).execute();
+
+        JsonNode jsonNodeRastreio = new ObjectMapper().readTree(responseRastreio.body().string());
+
+        String urlRastreio = null;
+
+        JsonNode idNodeRastreio = jsonNodeRastreio.get("tracking");
+        if (idNodeRastreio != null) {
+            urlRastreio = idNodeRastreio.asText();
+            System.out.println("tracking: " + urlRastreio);
+        } else {
+            System.out.println("O campo 'tracking' não foi encontrado.");
+        }
+        List<StatusRastreio> rastreios = statusRastreioRepository.listaRastreioVenda(vendaCompraLojaVirtual.getId());
+
+        if (rastreios.isEmpty()) {
+            StatusRastreio rastreio = new StatusRastreio();
+            rastreio.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
+            rastreio.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+            rastreio.setUrlRastreio("https://app.melhorrastreio.com.br/app/melhorenvio/"+urlRastreio);
+            statusRastreioRepository.saveAndFlush(rastreio);
+        }else {
+            statusRastreioRepository.salvaUrlRastreio("https://app.melhorrastreio.com.br/app/melhorenvio/\"+urlRastreio",vendaCompraLojaVirtual.getEmpresa().getId());
+        }
+
+        String rastreio0 = urlRastreio;
+
 
         return "Sucesso";
     }
@@ -528,6 +559,27 @@ public class VendaCompraLojaVirtualService {
 
 
         return response.body().string();
+    }
+
+    public String rastreioDaEtiqueta(BodyRastreioDTO bodyRastreioDTO) throws IOException {
+
+        String idEtiqueta = bodyRastreioDTO.getIdEtiqueta();
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, "{\"orders\":[\"" + idEtiqueta + "\"]}");
+        Request request = new Request.Builder()
+                .url("https://sandbox.melhorenvio.com.br/api/v2/me/shipment/tracking")
+                .post(body)
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-type", "application/json")
+                .addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NTYiLCJqdGkiOiI0MGVhMWJhZmQxNzMzNWU5YmQ0NjU5NjU1NjE4NGY5YzFiOTI3NjdmMTNmY2YzMWYxZDI5NTFhODM4NDAxNWY3OWI2MDFjNzc5NDg5NzIxYSIsImlhdCI6MTcyMDQxNTI0OS4zNDQ4MjEsIm5iZiI6MTcyMDQxNTI0OS4zNDQ4MjMsImV4cCI6MTc1MTk1MTI0OS4zMzQzNzcsInN1YiI6IjljNzg4OGFlLTYwNjctNGRhYy04NmVkLThlZjlkOWM1YTA2NiIsInNjb3BlcyI6WyJjYXJ0LXJlYWQiLCJjYXJ0LXdyaXRlIiwiY29tcGFuaWVzLXJlYWQiLCJjb21wYW5pZXMtd3JpdGUiLCJjb3Vwb25zLXJlYWQiLCJjb3Vwb25zLXdyaXRlIiwibm90aWZpY2F0aW9ucy1yZWFkIiwib3JkZXJzLXJlYWQiLCJwcm9kdWN0cy1yZWFkIiwicHJvZHVjdHMtZGVzdHJveSIsInByb2R1Y3RzLXdyaXRlIiwicHVyY2hhc2VzLXJlYWQiLCJzaGlwcGluZy1jYWxjdWxhdGUiLCJzaGlwcGluZy1jYW5jZWwiLCJzaGlwcGluZy1jaGVja291dCIsInNoaXBwaW5nLWNvbXBhbmllcyIsInNoaXBwaW5nLWdlbmVyYXRlIiwic2hpcHBpbmctcHJldmlldyIsInNoaXBwaW5nLXByaW50Iiwic2hpcHBpbmctc2hhcmUiLCJzaGlwcGluZy10cmFja2luZyIsImVjb21tZXJjZS1zaGlwcGluZyIsInRyYW5zYWN0aW9ucy1yZWFkIiwidXNlcnMtcmVhZCIsInVzZXJzLXdyaXRlIiwid2ViaG9va3MtcmVhZCIsIndlYmhvb2tzLXdyaXRlIiwid2ViaG9va3MtZGVsZXRlIiwidGRlYWxlci13ZWJob29rIl19.lp-mTlYfjPj1BR0mkaxOOdpTfyrN__05IiH23OE1DiHO3O_TRjedn2rs5Y0rsZ4fP2tisEglqdPrUb_vLyCvhXRSirGG67XE1JLR5HUiQMyaOsKq1A-uMg4_H3HkE_Per-QhonwLrx5Pu_B5eCIHS6Q-on0TLp6MMANyokSdJCZlJhXgGbnMBCqBFXPuiXxTJ8OoXBd1jA6EAQFTxWc93BVqt4x0YEL9EsN37IqVoSV-A9BpkswV0sg3cuSHs9n-PkE_gsSFCGWE6JYVtzkxmzL78iNtHwyAeva-Q__MLsNzL9J32-uDSM_q6qb1exIQme7-srEtARKZEHXcbbhsIbZWTKobdmzqE6acRMIt5-UTgMpR4kU6IpMNh9xPYCbaKRI9LzbKK_UGEFsRsocYyNq79htnB0kcQApwS0hdihQIAB_96ryxrBsmnATRFaSXa1x7QgrVMmAgrDDitNnLbiB4B4H3XznBTKb6hkKEflJmRvIuNzpM_P1kXFmACl8lhGYrXgb_1ouWe7PR4COVMLi9EvmHmQ2vYVW_Xe129EqIMx2lAOHiHJP7yCbSE1NyNC6Dlsfo34OcCZP4NCFJaV9XwlC6KFBrVot-5oAfvZ-G2D2s-uw-AAulJ6mFJ7cMZ-liVyj9qYxQfRf3R-2_vsWG_M7qdXTnGwO3nA3OL1I")
+                .addHeader("User-Agent", "hique1276@gmail.com")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return "Sucesso";
+
     }
 
 

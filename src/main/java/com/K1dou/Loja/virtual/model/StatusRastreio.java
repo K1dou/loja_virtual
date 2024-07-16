@@ -14,13 +14,7 @@ public class StatusRastreio {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_status_rastreio")
     private Long id;
 
-    private String centroDistribuicao;
-
-    private String cidade;
-
-    private String estado;
-
-    private String status;
+    private String urlRastreio;
 
     @JsonIgnore
     @ManyToOne
@@ -56,39 +50,14 @@ public class StatusRastreio {
         this.id = id;
     }
 
-    public String getCentroDistribuicao() {
-        return centroDistribuicao;
+    public String getUrlRastreio() {
+        return urlRastreio;
     }
 
-    public void setCentroDistribuicao(String centroDistribuicao) {
-        this.centroDistribuicao = centroDistribuicao;
+    public void setUrlRastreio(String urlRastreio) {
+        this.urlRastreio = urlRastreio;
     }
 
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

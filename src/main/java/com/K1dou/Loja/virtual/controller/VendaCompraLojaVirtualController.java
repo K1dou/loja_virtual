@@ -2,6 +2,7 @@ package com.K1dou.Loja.virtual.controller;
 
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.Dtos.VendaCompraLojaVirtualDTO;
+import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.BodyRastreioDTO;
 import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.ConsultaFreteDTO;
 import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.EmpresaTransporteDTO;
 import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.IdVendaRequest;
@@ -28,6 +29,14 @@ public class VendaCompraLojaVirtualController {
     @Autowired
     private VendaCompraLojaVirtualService vendaCompraService;
 
+
+
+    @PostMapping("/rastreioDaEtiqueta")
+    public ResponseEntity<String>rastreioDaEtiqueta(@RequestBody BodyRastreioDTO bodyRastreio) throws IOException {
+
+
+        return new ResponseEntity<String>(vendaCompraService.rastreioDaEtiqueta(bodyRastreio),HttpStatus.OK);
+    }
 
     @GetMapping("/cancelaEtiqueta/{idEtiqueta}/{descricao}")
     public ResponseEntity<String> cancelaEtiqueta(@PathVariable String idEtiqueta, @PathVariable String descricao) throws IOException {
