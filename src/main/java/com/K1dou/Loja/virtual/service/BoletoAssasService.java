@@ -4,10 +4,7 @@ package com.K1dou.Loja.virtual.service;
 import com.K1dou.Loja.virtual.enums.ApiTokenIntegracao;
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
 import com.K1dou.Loja.virtual.model.BoletoAssas;
-import com.K1dou.Loja.virtual.model.Dtos.DataRetornoCobrancaDTO;
-import com.K1dou.Loja.virtual.model.Dtos.ObjetoPostCarneAssasDTO;
-import com.K1dou.Loja.virtual.model.Dtos.ObjetoRequisicaoCobrancaDTO;
-import com.K1dou.Loja.virtual.model.Dtos.ObjetoRetornoCobrancaDTO;
+import com.K1dou.Loja.virtual.model.Dtos.*;
 import com.K1dou.Loja.virtual.model.VendaCompraLojaVirtual;
 import com.K1dou.Loja.virtual.repository.BoletoAssasRepository;
 import com.K1dou.Loja.virtual.repository.VendaCompraLojaVirtualRepository;
@@ -37,6 +34,31 @@ public class BoletoAssasService {
 
     @Autowired
     private BoletoAssasRepository boletoAssasRepository;
+
+
+    public ObjetoQrCodePixAssas buscarQrCodeCodigoPix(String idCobranca) throws IOException, ParseException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType mediaType = MediaType.parse("application/json");
+        Request request = new Request.Builder()
+                .url(ApiTokenIntegracao.URL_ASSAS_SAND_BOX + "/payments/" + idCobranca + "/pixQrCode")
+                .get()
+                .addHeader("User-Agent", "Loja-Virtual")
+                .addHeader("access_token", ApiTokenIntegracao.TOKEN_ASSAS_SAND_BOX)
+                .addHeader("accept", "application/json")
+                .build();
+        Response response = client.newCall(request).execute();
+        String json = response.body().string();
+
+        ObjetoQrCodePixAssas codePixAssas = new ObjetoQrCodePixAssas();
+
+        LinkedHashMap<String, Object> parse = new JSONParser(json).parseObject();
+        codePixAssas.setEncodedImage(parse.get("encodedImage").toString());
+        codePixAssas.setPayLoad(parse.get("payload").toString());
+        return codePixAssas;
+    }
+
 
     public String gerarCarneApiAssas(ObjetoPostCarneAssasDTO objetoPostCarneAssasDTO) throws ExceptionLojaVirtual, IOException, ParseException, java.text.ParseException {
 
@@ -83,7 +105,7 @@ public class BoletoAssasService {
         OkHttpClient clientParcelas = new OkHttpClient();
 
         Request requestParcelas = new Request.Builder()
-                .url(ApiTokenIntegracao.URL_ASSAS_SAND_BOX +"/payments?installments=" + installment)
+                .url(ApiTokenIntegracao.URL_ASSAS_SAND_BOX + "/payments?installments=" + installment)
                 .get()
                 .addHeader("access_token", ApiTokenIntegracao.TOKEN_ASSAS_SAND_BOX)
                 .addHeader("User-Agent", "Loja-Virtual")
@@ -118,10 +140,12 @@ public class BoletoAssasService {
             boletoAssas1.setValor(new BigDecimal(data.getValue()));
             boletoAssas1.setIdChrBoleto(data.getId());
             boletoAssas1.setInstallmentLink(data.getInvoiceUrl());
-//            boletoAssas1.setIdPix(data.getId());
-//            boletoAssas1.setPayloadInBase64(data.);
-//            boletoAssas1.setImageInBase64();
             boletoAssas1.setRecorrencia(recorrencia);
+
+            ObjetoQrCodePixAssas codePixAssas = this.buscarQrCodeCodigoPix(data.getId());
+
+            boletoAssas1.setPayloadInBase64(codePixAssas.getPayLoad());
+            boletoAssas1.setImageInBase64(codePixAssas.getEncodedImage());
 
             boletoAssas.add(boletoAssas1);
 
