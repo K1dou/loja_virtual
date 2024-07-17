@@ -1,6 +1,6 @@
 package com.K1dou.Loja.virtual.model.Dtos;
 
-public class ObjetoPostCarneAssas {
+public class ObjetoPostCarneAssasDTO {
 
     /* Descrição da cobrança */
     private String description;

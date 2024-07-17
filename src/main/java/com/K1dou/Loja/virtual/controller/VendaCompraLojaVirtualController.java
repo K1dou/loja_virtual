@@ -1,12 +1,14 @@
 package com.K1dou.Loja.virtual.controller;
 
 import com.K1dou.Loja.virtual.exceptions.ExceptionLojaVirtual;
+import com.K1dou.Loja.virtual.model.Dtos.ObjetoPostCarneAssasDTO;
 import com.K1dou.Loja.virtual.model.Dtos.VendaCompraLojaVirtualDTO;
 import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.BodyRastreioDTO;
 import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.ConsultaFreteDTO;
 import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.EmpresaTransporteDTO;
 import com.K1dou.Loja.virtual.model.Dtos.transporteDTO.IdVendaRequest;
 import com.K1dou.Loja.virtual.model.VendaCompraLojaVirtual;
+import com.K1dou.Loja.virtual.service.BoletoAssasService;
 import com.K1dou.Loja.virtual.service.VendaCompraLojaVirtualService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,18 @@ public class VendaCompraLojaVirtualController {
 
     @Autowired
     private VendaCompraLojaVirtualService vendaCompraService;
+
+    @Autowired
+    private BoletoAssasService boletoAssasService;
+
+
+
+    @PostMapping("/gerarCarneApiAssas")
+    public ResponseEntity<String>gerarCarneApiAssas(@RequestBody ObjetoPostCarneAssasDTO objetoPostCarneAssasDTO) throws IOException, ExceptionLojaVirtual, org.apache.tomcat.util.json.ParseException, ParseException {
+
+        return new ResponseEntity<String>(boletoAssasService.gerarCarneApiAssas(objetoPostCarneAssasDTO),HttpStatus.OK);
+    }
+
 
 
 
