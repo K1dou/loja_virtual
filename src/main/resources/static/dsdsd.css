@@ -1,0 +1,109 @@
+html,
+main {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: inherit,Serif,Sans-Serif;
+    gap: 60px;
+}
+
+
+.sessao1{
+    max-width: 460px;
+    width: 60%;
+    height: 360px;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+
+}
+
+.sessao1 p {
+    font-size: 30px;
+    margin-top: 0;
+    margin-bottom: 150px;
+}
+
+.sessao1 h1 {
+    color: #027BFD;
+    font-size: 55px;
+    margin-bottom: 10px;
+}
+
+
+
+.sessao2 {
+    width: 40%;
+    height: 360px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    max-width: 390px;
+}
+
+.EmailSenha {
+
+    margin-top: 16px;
+    width: 330px;
+    padding: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
+    border: 1px solid #DEDEDE;
+
+}
+
+.BotaoEntrar {
+    margin-bottom: 16px;
+    margin-top: 16px;
+    background-color: #007bff;
+    /* Blue background */
+    color: white;
+    /* White text color */
+    padding: 10px 160px;
+    /* Padding around text */
+    border: none;
+    /* Remove default border */
+    cursor: pointer;
+    /* Indicate clickable area */
+    font-size: 16px;
+    /* Font size */
+    font-weight: bold;
+    /* Bold font weight */
+    border-radius: 5px;
+    /* Rounded corners */
+}
+
+.botaoCriar {
+    background-color: green;
+    /* Blue background */
+    color: white;
+    /* White text color */
+    padding: 10px 20px;
+    /* Padding around text */
+    border: none;
+    /* Remove default border */
+    cursor: pointer;
+    /* Indicate clickable area */
+    font-size: 16px;
+    /* Font size */
+    font-weight: bold;
+    /* Bold font weight */
+    border-radius: 5px;
+    /* Rounded corners */
+    margin-bottom: 16px;
+}
+
+.dados {
+    border: 2px #EAEAEA solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 7px;
+    box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.3);
+}
