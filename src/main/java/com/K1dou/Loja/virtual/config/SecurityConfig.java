@@ -3,6 +3,7 @@ package com.K1dou.Loja.virtual.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -43,6 +44,9 @@ public class SecurityConfig  {
                         .requestMatchers("/usuario/**").permitAll()
                         .requestMatchers("/statusRastreio/**").permitAll()
                         .requestMatchers("/cupDesc/**").permitAll()
+                        .requestMatchers("/Loja-virtual/**").permitAll()
+                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/index","/pagamento/**","/resources/**","/static;**","/templates/**","classpath:/**","webjars/**","/WEB-INF/classes/static/**").permitAll()
 
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
