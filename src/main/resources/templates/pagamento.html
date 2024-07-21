@@ -6,10 +6,228 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 
-<h1>Tela Pagamento</h1>
+<div class="container">
 
+    <form style="padding-top: 20px; padding-bottom: 20px" id="formcheckoutx">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" class="form-control" id="nome" required style="height: 40px;">
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email:</label>
+                <input type="text" class="form-control" id="email" required style="height: 40px;">
+            </div>
+        </div>
+
+        <div class="row mb-3" id="linha1cartao">
+            <div class="col-md-6">
+                <label for="numerocartao" class="form-label">Número do cartão:</label>
+                <input type="text" placeholder="455.454.545454.5454544" class="form-control" id="numerocartao"
+                       required="required" style="height: 40px;">
+            </div>
+            <div class="col-md-6">
+                <label for="nomecartao" class="form-label">Nome como escrito no cartão:</label>
+                <input type="text" placeholder="joão da silva" class="form-control" id="nomecartao" required="required"
+                       style="height: 40px;">
+            </div>
+        </div>
+
+        <div class="row mb-3" id="divcpf">
+            <div class="col-md-6">
+                <label for="cpf" class="form-label">CPF:</label>
+                <input type="text" class="form-control" id="cpf" required="required" style="height: 40px;">
+            </div>
+        </div>
+
+        <div class="row mb-3" id="linha2cartao">
+            <div class="col-md-4">
+                <label for="mesvalidade" class="form-label">Mês de validade:</label>
+                <select class="form-select" required="required" id="mesvalidade" style="height: 40px;">
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="anovalidade" class="form-label">Ano de validade:</label>
+                <select class="form-select" required="required" id="anovalidade" style="height: 40px;">
+                    <option value="2022">22</option>
+                    <option value="2023">23</option>
+                    <option value="2024">24</option>
+                    <option value="2025">25</option>
+                    <option value="2026">26</option>
+                    <option value="2027">27</option>
+                    <option value="2028">28</option>
+                    <option value="2029">29</option>
+                    <option value="2030">30</option>
+                    <option value="2031">31</option>
+                    <option value="2032">32</option>
+                    <option value="2033">33</option>
+                    <option value="2034">34</option>
+                    <option value="2035">35</option>
+                    <option value="2036">36</option>
+                    <option value="2037">37</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="cvv" class="form-label">Código de segurança ou CVV:</label>
+                <input type="text" style="height: 40px;" placeholder="380" class="form-control" id="cvv"
+                       required="required">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="qtdparcela" class="form-label">Selecione o número de parcela:</label>
+                <select class="form-select" required="required" id="qtdparcela" style="height: 40px;">
+                    <option value="1">1 x</option>
+                    <option value="2">2 x</option>
+                    <option value="3">3 x</option>
+                    <option value="4">4 x</option>
+                    <option value="5">5 x</option>
+                    <option value="6">6 x</option>
+                    <option value="7">7 x</option>
+                    <option value="8">8 x</option>
+                    <option value="9">9 x</option>
+                    <option value="10">10 x</option>
+                    <option value="11">11 x</option>
+                    <option value="12">12 x</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="container">
+            <form style="padding-top: 20px; padding-bottom: 20px" id="formcheckout">
+                <div class="row mb-3" id="divendereco">
+                    <div class="col-md-4">
+                        <label for="cep" class="form-label">CEP de cobrança:</label>
+                        <input type="text" placeholder="00000-000" class="form-control" id="cep" name="cep"
+                               autocomplete="postal-code" required style="height: 40px;"
+                               onblur="pesquisacep(this.value);">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="rua" class="form-label">Rua:</label>
+                        <input type="text" class="form-control" id="rua" name="rua" autocomplete="street-address"
+                               required style="height: 40px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="numero" class="form-label">Número:</label>
+                        <input type="text" class="form-control" id="numero" name="numero" autocomplete="off" required
+                               style="height: 40px;">
+                    </div>
+                </div>
+                <div class="row mb-3" id="divendereco2">
+                    <div class="col-md-6">
+                        <label for="estado" class="form-label">Estado:</label>
+                        <input type="text" placeholder="PR" class="form-control" id="estado" name="estado"
+                               autocomplete="address-level1" required style="height: 40px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="cidade" class="form-label">Cidade:</label>
+                        <input type="text" placeholder="Maringá" class="form-control" id="cidade" name="cidade"
+                               autocomplete="address-level2" required style="height: 40px;">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="bairro" class="form-label">Bairro:</label>
+                        <input type="text" class="form-control" id="bairro" name="bairro" required
+                               style="height: 40px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="ibge" class="form-label">IBGE:</label>
+                        <input type="text" class="form-control" id="ibge" name="ibge" required style="height: 40px;">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <input id="buttonrealizarPagamento" onclick="realizarPagamento();" type="button"
+                       class="btn btn-primary btn-lg" value="Realizar Pagamento"
+                       style="font-size: 23px; height: 50px; width: 100%;">
+            </div>
+        </div>
+    </form>
+
+    <div class="form-row">
+        <div class="form-group col-12">
+            <span id="valorParaCompra" style="width:100%; height:30px; font-size:19px;">TOTAL R$</span>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    function limpa_formulário_cep() {
+        document.getElementById('rua').value = "";
+        document.getElementById('bairro').value = "";
+        document.getElementById('cidade').value = "";
+        document.getElementById('estado').value = "";
+        document.getElementById('ibge').value = "";
+    }
+
+    function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            document.getElementById('rua').value = conteudo.logradouro;
+            document.getElementById('bairro').value = conteudo.bairro;
+            document.getElementById('cidade').value = conteudo.localidade;
+            document.getElementById('estado').value = conteudo.uf;
+            document.getElementById('ibge').value = conteudo.ibge;
+        } else {
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+
+    function pesquisacep(valor) {
+        var cep = valor.replace(/\D/g, '');
+        if (cep != "") {
+            var validacep = /^[0-9]{8}$/;
+            if (validacep.test(cep)) {
+                document.getElementById('rua').value = "...";
+                document.getElementById('bairro').value = "...";
+                document.getElementById('cidade').value = "...";
+                document.getElementById('estado').value = "...";
+                document.getElementById('ibge').value = "...";
+                var script = document.createElement('script');
+                script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=meu_callback';
+                document.body.appendChild(script);
+            } else {
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } else {
+            limpa_formulário_cep();
+        }
+    }
+    function realizarPagamento() {
+        // Aqui você pode adicionar a lógica para processar o pagamento
+        alert("Pagamento realizado com sucesso!");
+        // window.location.href = 'pagina-de-confirmacao.html'; // Exemplo de redirecionamento
+    }
+</script>
 </body>
 </html>
